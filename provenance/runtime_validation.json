@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-14",
+  "host": "Talos",
+  "device": "CPU only",
+  "checks": {
+    "full_vocabulary_forward_kl": true,
+    "analytic_gradient_matches_autograd": true,
+    "teacher_has_no_gradient": true,
+    "answer_mask_and_shift": true,
+    "token_mean_length_invariant": true,
+    "both_sides_equal_weight": true,
+    "domain_routing": true,
+    "dpo_log2_at_reference": true,
+    "dpo_both_sides_gradient": true
+  },
+  "numerical_kernel_sha256": {
+    "qwen_encoding.py": "48b190cd8d16406d4b1e1abef2cd77e3272dffcde494b0e50a7aa7e9a619cb2a",
+    "standard_dpo_objective_20260912.py": "8956a815fc3359068616afb7470fabf056a8dc06c2fa96c46341f682d1a9d937",
+    "kl_objective.py": "196103c7c313b74e3a5ccff51cf11a9323422cdbb1485c0a4bf576632a122199",
+    "gpu_optimizer.py": "a197a862e4bb7e330d5c753efd1360b593c55a29afb8ab0bd27da662e02ae3d3"
+  },
+  "kernel_matches_original_remote": true,
+  "new_seed_GPU_experiments_started": false,
+  "talos_unit_tests": 9,
+  "talos_unit_tests_passed": 9,
+  "talos_unit_tests_skipped": 0,
+  "shared_model_hash_and_acl_check": "passed for yzhong7; POSIX/ACL audit, not a login",
+  "gpu_experiments_started": false
+}

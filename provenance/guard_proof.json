@@ -1,0 +1,42 @@
+{
+  "source": "/scratch/yzhang92/safety_ease_qwen3b/evaluator/Llama-Guard-3-8B",
+  "files": {
+    "config.json": {
+      "bytes": 860,
+      "sha256": "2fc8239c581986bc8aceffab5e9bbec2c9e1e383fe39409d86e5ca97b6368901"
+    },
+    "generation_config.json": {
+      "bytes": 160,
+      "sha256": "d14c15edb3055a52ceb81fd7c94a50c01e925fcd8c950e755b7564077677a9a8"
+    },
+    "model-00001-of-00004.safetensors": {
+      "bytes": 4976698672,
+      "sha256": "37aa666e38f27d6364c510bf68644cf146009f90ddfdd0e46264fd833fc735da"
+    },
+    "model-00002-of-00004.safetensors": {
+      "bytes": 4999802720,
+      "sha256": "4b169a796073335f6059927b2070edfcb506876b1afa862fcde0c8b538bf903f"
+    },
+    "model-00003-of-00004.safetensors": {
+      "bytes": 4915916176,
+      "sha256": "ac817adae76270f1a466cda70e1c360a780668534f7a22bce00ac4fe03135f4a"
+    },
+    "model-00004-of-00004.safetensors": {
+      "bytes": 1168138808,
+      "sha256": "ec748c5f2821d7eecb446922b7e75431108e43081c21fc0773212de09c19eaaa"
+    },
+    "model.safetensors.index.json": {
+      "bytes": 23950,
+      "sha256": "146776fce3f6db1103aa6f249e65ee5544c5923ce6f971b092eee79aa6e5d37b"
+    },
+    "tokenizer.json": {
+      "bytes": 9084449,
+      "sha256": "bbc1904d35169c542dffbe1f7589a5994ec7426d9e5b609d07bab876f32e97ab"
+    },
+    "tokenizer_config.json": {
+      "bytes": 51967,
+      "sha256": "5f29808854afad7b83b11a668a5231377c8527454d56ec0c10ae851d0f17281a"
+    }
+  },
+  "status": "verified_identical_to_original_hopper_evaluator"
+}

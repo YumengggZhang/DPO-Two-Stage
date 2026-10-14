@@ -1,0 +1,79 @@
+[
+  {
+    "file": "vendor/train_methods.py",
+    "source": "scripts/qwen17_wild_method4_20261005/train_methods.py",
+    "source_sha256": "499237fa7f5986ef3e07f7945ce7e8a0bc88edd6916e478f15f6ad514cbfeb94",
+    "export_sha256": "d72b4d98b2723318e1f800d68cbb8ecea9f097711a76d2690b3ff8ee98122048",
+    "modified_for_portability": true
+  },
+  {
+    "file": "vendor/protocol.py",
+    "source": "scripts/qwen17_wild_method4_20261005/protocol.py",
+    "source_sha256": "97cbe9b83c85378096f64cf13954b6388fa18a53fad8f9984af4753c5259e57b",
+    "export_sha256": "c29eddfbb99f942885e25389074e85afd96f6c61de4ce8960d6ecc9fe46d6f10",
+    "modified_for_portability": true
+  },
+  {
+    "file": "vendor/qwen_encoding.py",
+    "source": "scripts/qwen17_wild_method4_20261005/qwen_encoding.py",
+    "source_sha256": "48b190cd8d16406d4b1e1abef2cd77e3272dffcde494b0e50a7aa7e9a619cb2a",
+    "export_sha256": "48b190cd8d16406d4b1e1abef2cd77e3272dffcde494b0e50a7aa7e9a619cb2a",
+    "modified_for_portability": false
+  },
+  {
+    "file": "vendor/standard_dpo_objective_20260912.py",
+    "source": "scripts/qwen17_wild_method4_20261005/standard_dpo_objective_20260912.py",
+    "source_sha256": "8956a815fc3359068616afb7470fabf056a8dc06c2fa96c46341f682d1a9d937",
+    "export_sha256": "8956a815fc3359068616afb7470fabf056a8dc06c2fa96c46341f682d1a9d937",
+    "modified_for_portability": false
+  },
+  {
+    "file": "vendor/kl_objective.py",
+    "source": "scripts/qwen17_wild_method4_20261005/kl_objective.py",
+    "source_sha256": "196103c7c313b74e3a5ccff51cf11a9323422cdbb1485c0a4bf576632a122199",
+    "export_sha256": "196103c7c313b74e3a5ccff51cf11a9323422cdbb1485c0a4bf576632a122199",
+    "modified_for_portability": false
+  },
+  {
+    "file": "vendor/gpu_optimizer.py",
+    "source": "scripts/qwen17_wild_method4_20261005/gpu_optimizer.py",
+    "source_sha256": "a197a862e4bb7e330d5c753efd1360b593c55a29afb8ab0bd27da662e02ae3d3",
+    "export_sha256": "a197a862e4bb7e330d5c753efd1360b593c55a29afb8ab0bd27da662e02ae3d3",
+    "modified_for_portability": false
+  },
+  {
+    "file": "vendor/development.py",
+    "source": "scripts/qwen17_wild_method4_20261005/development.py",
+    "source_sha256": "8f4700a085ec7043bcb42c479330caa70e9e13455f02100062e95eb1c747696a",
+    "export_sha256": "8f4700a085ec7043bcb42c479330caa70e9e13455f02100062e95eb1c747696a",
+    "modified_for_portability": false
+  },
+  {
+    "file": "vendor/evaluate.py",
+    "source": "scripts/qwen17_wild_method4_20261005/evaluate.py",
+    "source_sha256": "33e39aebcc89ee9274260b2ae530a71ddbcaf3956f5a16f7ecd30a05249161b7",
+    "export_sha256": "65cc69f956a1780f1c5f01f9d462bb2d55574b0339551d8e13be9294343fbf39",
+    "modified_for_portability": true
+  },
+  {
+    "file": "vendor/run_safety_pair_v3_binary_judge.py",
+    "source": "scripts/qwen17_wild_method4_20261005/run_safety_pair_v3_binary_judge.py",
+    "source_sha256": "996626f7aa2cbddfebfab4aad06ec1ce1cdbc8275f370fbeb63b39bd30dc5afa",
+    "export_sha256": "bcef3519f713fe5745fe6f5ee241195a677aea530759ff3a46a83722e6049da8",
+    "modified_for_portability": true
+  },
+  {
+    "file": "vendor/safety_pair_v3_common.py",
+    "source": "scripts/qwen17_wild_method4_20261005/safety_pair_v3_common.py",
+    "source_sha256": "c8ce7abefa2abfc25dace3be014c1013c59a6f34853fd5207f6a1c5d44c83182",
+    "export_sha256": "c8ce7abefa2abfc25dace3be014c1013c59a6f34853fd5207f6a1c5d44c83182",
+    "modified_for_portability": false
+  },
+  {
+    "file": "vendor/safety_pair_v3_binary_rubrics.py",
+    "source": "scripts/qwen17_wild_method4_20261005/safety_pair_v3_binary_rubrics.py",
+    "source_sha256": "8bec59cd5476efa8a81ba111aad0b395e6e34edb4b189d0d6bfe535923034919",
+    "export_sha256": "8bec59cd5476efa8a81ba111aad0b395e6e34edb4b189d0d6bfe535923034919",
+    "modified_for_portability": false
+  }
+]

@@ -1,0 +1,6 @@
+torch==2.13.0
+transformers==5.16.1
+vllm==0.28.0
+safetensors==0.8.0
+huggingface_hub==1.30.0
+numpy==2.3.5

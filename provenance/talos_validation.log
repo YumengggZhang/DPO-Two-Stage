@@ -1,0 +1,15 @@
+Verified and restored 11 frozen data files.
+test_bank_exposure_and_initialization (test_reproduction.ProtocolTests.test_bank_exposure_and_initialization) ... ok
+test_frozen_data_integrity (test_reproduction.ProtocolTests.test_frozen_data_integrity) ... ok
+test_full_vocabulary_kl_loss_and_gradient (test_reproduction.ProtocolTests.test_full_vocabulary_kl_loss_and_gradient) ... ok
+test_objective_routing_and_best_method4 (test_reproduction.ProtocolTests.test_objective_routing_and_best_method4) ... ok
+test_reporting_excludes_development_and_preserves_unknown (test_reproduction.ProtocolTests.test_reporting_excludes_development_and_preserves_unknown) ... ok
+test_seeds_change_order_without_changing_data (test_reproduction.ProtocolTests.test_seeds_change_order_without_changing_data) ... ok
+test_six_settings_eighteen_unique_new_seeds (test_reproduction.ProtocolTests.test_six_settings_eighteen_unique_new_seeds) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 3.083s
+
+OK
+{"status": "passed", "models": ["initial", "pi1", "guard", "selene"], "exact_model_hashes": true, "permissions_for": "yzhong7", "permission_check": "POSIX mode and ACL evaluation, not a login as that user"}
+ALL_VALIDATION_PASSED_NO_GPU_TRAINING

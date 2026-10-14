@@ -1,0 +1,88 @@
+{
+  "format": "concatenated gzip tar",
+  "archive_bytes": 20657472,
+  "archive_sha256": "009676d8d54cdd7ece8ef1d65c959dcc380b9d5a3dbc1d23f25d55c9eae491b5",
+  "parts": [
+    {
+      "name": "frozen_data.tar.gz.part-000",
+      "bytes": 3145728,
+      "sha256": "0c109430686530ce5aa087f733a0174a756f8b7d247efd579e885315a4407239"
+    },
+    {
+      "name": "frozen_data.tar.gz.part-001",
+      "bytes": 3145728,
+      "sha256": "cbf10941283e357115029b5335ac5f772c61f886485e1f8dee2314abdc6b9f3b"
+    },
+    {
+      "name": "frozen_data.tar.gz.part-002",
+      "bytes": 3145728,
+      "sha256": "9bfe1605ece5dd89e9bfeef6d262f71af544781a223ec8762def730ac19c1e9c"
+    },
+    {
+      "name": "frozen_data.tar.gz.part-003",
+      "bytes": 3145728,
+      "sha256": "d868ca003c50e2147f31411c916ffc149abab7e01bac12ce64244c6507c4b849"
+    },
+    {
+      "name": "frozen_data.tar.gz.part-004",
+      "bytes": 3145728,
+      "sha256": "0bb4952727ee0749d5f7867e8a207479ac74e3577c5079165463594e6ffc43e3"
+    },
+    {
+      "name": "frozen_data.tar.gz.part-005",
+      "bytes": 3145728,
+      "sha256": "17a0b9463ca0187810b3a809865f9fd2b1e7cecb08031c07656ff9dc70a06357"
+    },
+    {
+      "name": "frozen_data.tar.gz.part-006",
+      "bytes": 1783104,
+      "sha256": "2b7b0ecd5c96f6c0428548bfc77e53c06ec489ed4b6f728e5ae1c49397d7a546"
+    }
+  ],
+  "unpacked_files": {
+    "stage2.jsonl": {
+      "bytes": 25628357,
+      "sha256": "7c9357bd4e4efba34967fd5d93d62809698d6e56a86129a908b64eba173965ba"
+    },
+    "stage2.encoded.json": {
+      "bytes": 37708498,
+      "sha256": "355b8c71acb80bf54d0e0760c7d3f3c083a452285958b4a1bdf34933077d3d50"
+    },
+    "stage2.reference.jsonl": {
+      "bytes": 572396,
+      "sha256": "4f43d42e1f56b43fe30304db074c8bae8d4a527b57daf5e12e8f53f5cb9d21e3"
+    },
+    "harmful.jsonl": {
+      "bytes": 4437280,
+      "sha256": "77584d686077b93669ecd7a817aa33377dfea1e856cb09a91c7a832c8769dfcc"
+    },
+    "harmful.encoded.json": {
+      "bytes": 12523206,
+      "sha256": "89f0278a603b713354f01435884e60ac7669e6428e244e8e7a6fff293ab0be71"
+    },
+    "harmful.reference.jsonl": {
+      "bytes": 237184,
+      "sha256": "ba569118c91dd689d77e69a5ab72f12d1b7918d3b120926d4d5e5870508e98b8"
+    },
+    "mixed.jsonl": {
+      "bytes": 12838559,
+      "sha256": "5686a8d98dafe7115d8326817341bd14b33f842aaa76f4d0ce5b0da486c4ec4c"
+    },
+    "mixed.encoded.json": {
+      "bytes": 20155952,
+      "sha256": "397deee0f036486103201db713ace50e814b6e83b833d2e2410bac4f7ebda298"
+    },
+    "mixed.reference.jsonl": {
+      "bytes": 566657,
+      "sha256": "c4a8cb296610b6dede837c60e179d24fd8ad3d0d0ad6adf5ed458af489d20010"
+    },
+    "safety_eval.json": {
+      "bytes": 1741298,
+      "sha256": "f928c7e0b41d7f9375cc0bf7304ac415cae9c7a4f52d5d6439a09e203eec8c94"
+    },
+    "development.jsonl": {
+      "bytes": 39172,
+      "sha256": "256216b54d36c31e4cee54e3a0da8ea3c9f3fe3a3e60522417612fecbb4f9017"
+    }
+  }
+}

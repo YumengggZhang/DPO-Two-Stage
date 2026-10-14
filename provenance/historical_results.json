@@ -1,0 +1,36 @@
+{
+  "seed": 2002,
+  "role": "historical reference only; do not combine with new three seeds",
+  "settings": {
+    "method1_dpo": {
+      "ASR": 0.58,
+      "over_refusal": 13.9,
+      "definite_helpful": 50.9
+    },
+    "method2_chosen": {
+      "ASR": 6.95,
+      "over_refusal": 6.8,
+      "definite_helpful": 82.38
+    },
+    "method3": {
+      "ASR": 3.59,
+      "over_refusal": 27.47,
+      "definite_helpful": 44.73
+    },
+    "method4_best": {
+      "ASR": 12.17,
+      "over_refusal": 4.07,
+      "definite_helpful": 88.74
+    },
+    "dpo_harmful_only": {
+      "ASR": 3.71,
+      "over_refusal": 24.03,
+      "definite_helpful": 47.87
+    },
+    "dpo_mixed": {
+      "ASR": 26.54,
+      "over_refusal": 4.88,
+      "definite_helpful": 85.05
+    }
+  }
+}

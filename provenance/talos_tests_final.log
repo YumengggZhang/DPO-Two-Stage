@@ -1,0 +1,15 @@
+test_bank_exposure_and_initialization (test_reproduction.ProtocolTests.test_bank_exposure_and_initialization) ... ok
+test_dpo_sequence_sum_and_both_answer_gradients (test_reproduction.ProtocolTests.test_dpo_sequence_sum_and_both_answer_gradients) ... ok
+test_frozen_data_integrity (test_reproduction.ProtocolTests.test_frozen_data_integrity) ... ok
+test_full_vocabulary_kl_loss_and_gradient (test_reproduction.ProtocolTests.test_full_vocabulary_kl_loss_and_gradient) ... ok
+test_objective_routing_and_best_method4 (test_reproduction.ProtocolTests.test_objective_routing_and_best_method4) ... ok
+test_prepare_all_six_real_banks_and_reference_identities (test_reproduction.ProtocolTests.test_prepare_all_six_real_banks_and_reference_identities) ... ok
+test_reporting_excludes_development_and_preserves_unknown (test_reproduction.ProtocolTests.test_reporting_excludes_development_and_preserves_unknown) ... ok
+test_seeds_change_order_without_changing_data (test_reproduction.ProtocolTests.test_seeds_change_order_without_changing_data) ... ok
+test_six_settings_eighteen_unique_new_seeds (test_reproduction.ProtocolTests.test_six_settings_eighteen_unique_new_seeds) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 15.069s
+
+OK
+{"lock_checks": [{"gpu": 0, "read_only_flock": "passed"}, {"gpu": 1, "read_only_flock": "passed"}], "home_free_bytes": 31181471744, "tmp_free_bytes": 49046392832, "GPU_training_started": false}

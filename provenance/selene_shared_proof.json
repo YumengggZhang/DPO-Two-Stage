@@ -1,0 +1,90 @@
+{
+  "model": "AtlaAI/Selene-1-Llama-3.3-70B-GPTQ-W8A8",
+  "revision": "023227c22156b0273b0693c82c65bd7084a50e92",
+  "files": {
+    "config.json": {
+      "bytes": 2009,
+      "sha256": "87f8f9aa49ce22403dcfd3450041bb8e3fba6d91dab05b8dae3ff095f8cf8770"
+    },
+    "generation_config.json": {
+      "bytes": 177,
+      "sha256": "6e3dea9cdfa4a3e0edf1b52d9b1e9609aa22efcddce630060b748284663c8e67"
+    },
+    "model-00008-of-00015.safetensors": {
+      "bytes": 4900104584,
+      "sha256": "23166dfdd12cb039f6825258723c91552bf3bae95685c0a790a18187ddd56f34"
+    },
+    "model-00003-of-00015.safetensors": {
+      "bytes": 4900112536,
+      "sha256": "06a5efa72a89d21361c9541d65ca35fc2e8ceb35358563dabafc451be63bd9b7"
+    },
+    "model-00007-of-00015.safetensors": {
+      "bytes": 4900112552,
+      "sha256": "c641985dce37630a7872bf2089d0d6f8e78b89b6a7b0a2a3eedcb15d6946991f"
+    },
+    "model-00004-of-00015.safetensors": {
+      "bytes": 4900104584,
+      "sha256": "e93fcf4c14aae915b5befaabb0912ea31e31dceffa75e02b2c2d1918090a7731"
+    },
+    "model-00006-of-00015.safetensors": {
+      "bytes": 4984010448,
+      "sha256": "2ab91a1d8fc0c02174ad4363ce7ba140f04936fc59891e3e53028c271d74dba5"
+    },
+    "model-00002-of-00015.safetensors": {
+      "bytes": 4984010360,
+      "sha256": "2ef1785b3e856c2f9b889b21480e364a04f9b7ca4ef7e17076da34e2a5e5938f"
+    },
+    "model-00001-of-00015.safetensors": {
+      "bytes": 4819900928,
+      "sha256": "f1962ab75f85d694062ef50dd2f4fb1e2904c656e9dbf501e2c02c926aa3f046"
+    },
+    "model-00009-of-00015.safetensors": {
+      "bytes": 4900104584,
+      "sha256": "6bef0129e685f11d512d4f169cefd041107b4d96b9e4942b70a7b2cba6218429"
+    },
+    "model.safetensors.index.json": {
+      "bytes": 108504,
+      "sha256": "fcde01c04860007d9a522fbb4f9c161be84e26395e1b49847a7ea32b97bdfa24"
+    },
+    "special_tokens_map.json": {
+      "bytes": 454,
+      "sha256": "94e708c3f5e64acf85bbe5ad01467a1248faadb73e83b41793087ecced586e8f"
+    },
+    "model-00005-of-00015.safetensors": {
+      "bytes": 4900104584,
+      "sha256": "6571adb6bbd8deb148a68f4350d8346441b7c6ae392bafd70f26845165782e11"
+    },
+    "tokenizer_config.json": {
+      "bytes": 55423,
+      "sha256": "6ed9bcf1ebd161a41d93f5d1024df023eb6bc3f1714210c7d179e33f84c7033f"
+    },
+    "tokenizer.json": {
+      "bytes": 17209920,
+      "sha256": "6b9e4e7fb171f92fd137b777cc2714bf87d11576700a1dcd7a399e7bbe39537b"
+    },
+    "model-00010-of-00015.safetensors": {
+      "bytes": 4984010448,
+      "sha256": "352dc163156ec8df634a71386c36e01d043f38265f6ff4d471a73f976051b8b7"
+    },
+    "model-00011-of-00015.safetensors": {
+      "bytes": 4900112552,
+      "sha256": "a3bc2d5d0a140ec12445449c6cdc5de5367cafb5c82523e38560e650d4a6206a"
+    },
+    "model-00013-of-00015.safetensors": {
+      "bytes": 4900104584,
+      "sha256": "42c009234ba139e0c64a6938c917f6e8336a15ab2aeac86ecd5c4f5e851e560f"
+    },
+    "model-00012-of-00015.safetensors": {
+      "bytes": 4900104584,
+      "sha256": "7758b30cb5398aa5569c97bea422b71a44069d7b8e9ecbb5352ab4e87b283283"
+    },
+    "model-00015-of-00015.safetensors": {
+      "bytes": 3813044096,
+      "sha256": "820a2379557c53e848afad34c93657f8239c5d721bc2d571cbe85854cb4cdd35"
+    },
+    "model-00014-of-00015.safetensors": {
+      "bytes": 4984010448,
+      "sha256": "376d06e3e6587ab68e1054bc76189516bd8c97006cfc9b5f51230990fe27eebd"
+    }
+  }
+}
