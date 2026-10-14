@@ -3,7 +3,7 @@
     "file": "vendor/train_methods.py",
     "source": "scripts/qwen17_wild_method4_20261005/train_methods.py",
     "source_sha256": "499237fa7f5986ef3e07f7945ce7e8a0bc88edd6916e478f15f6ad514cbfeb94",
-    "export_sha256": "d72b4d98b2723318e1f800d68cbb8ecea9f097711a76d2690b3ff8ee98122048",
+    "export_sha256": "1b09deee6573104e7331ce7ac530b4060187dfd92a523a59800707a074a0c652",
     "modified_for_portability": true
   },
   {
@@ -74,6 +74,27 @@
     "source": "scripts/qwen17_wild_method4_20261005/safety_pair_v3_binary_rubrics.py",
     "source_sha256": "8bec59cd5476efa8a81ba111aad0b395e6e34edb4b189d0d6bfe535923034919",
     "export_sha256": "8bec59cd5476efa8a81ba111aad0b395e6e34edb4b189d0d6bfe535923034919",
+    "modified_for_portability": false
+  },
+  {
+    "file": "vendor/safety_pair_v3_optim.py",
+    "source": "scripts/safety_pair_v3_optim.py",
+    "source_sha256": "d9a2aac07402136d1f23f7ee0166ba1015a87da577aace9c37bee21ff98102f3",
+    "export_sha256": "d9a2aac07402136d1f23f7ee0166ba1015a87da577aace9c37bee21ff98102f3",
+    "modified_for_portability": false
+  },
+  {
+    "file": "vendor/streaming_optim.py",
+    "source": "scripts/dpo32b_talos_20260917/streaming_optim.py",
+    "source_sha256": "2371778a2a91be59a026f736da55ee96f64d1bb565a2f43c9a48ffc748eb4170",
+    "export_sha256": "2371778a2a91be59a026f736da55ee96f64d1bb565a2f43c9a48ffc748eb4170",
+    "modified_for_portability": false
+  },
+  {
+    "file": "vendor/two_gpu_optimizer.py",
+    "source": "scripts/r1_7b_20260920/gpu_optimizer.py",
+    "source_sha256": "97d33e1f95203e2ab24c4e2d24dc8fd664462bc86ec6f40454788d1fc20bcfec",
+    "export_sha256": "97d33e1f95203e2ab24c4e2d24dc8fd664462bc86ec6f40454788d1fc20bcfec",
     "modified_for_portability": false
   }
 ]

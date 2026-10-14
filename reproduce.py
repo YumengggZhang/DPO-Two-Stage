@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fixed-data, fixed-checkpoint, six-setting Qwen training-seed replication."""
+"""Fixed-data, fixed-checkpoint, 42-run two-stage and five-model baseline training-seed replication."""
 import argparse
 import collections
 import fcntl
@@ -34,7 +34,17 @@ def jobs(arms=None, seeds=None):
     assert len(chosen) == len(set(chosen)) and set(chosen) <= set(p['seeds'])
     return [dict(arm=arm, seed=seed, **p['settings'][arm]) for seed in chosen for arm in selected]
 
-def ordered(rows, seed):
+def ordered(rows, seed, balanced=False):
+    if balanced:
+        rng=random.Random(seed)
+        harmful=[r for r in rows if r["task_type"]=="harmful"]
+        benign=[r for r in rows if r["task_type"]=="benign"]
+        assert len(harmful)==len(benign)==1000
+        rng.shuffle(harmful);rng.shuffle(benign)
+        batches=[]
+        for i in range(0,1000,4):
+            batch=harmful[i:i+4]+benign[i:i+4];rng.shuffle(batch);batches.extend(batch)
+        return batches
     rows = list(rows)
     random.Random(seed).shuffle(rows)
     return rows
@@ -42,12 +52,16 @@ def ordered(rows, seed):
 def check_data():
     manifest = load(REPO/'data/manifest.json')
     assert manifest['status'] == 'verified_export'
+    baseline=load(REPO/'data/baseline_manifest.json')
+    assert baseline['status']=='verified_export'
+    manifest=dict(manifest, banks=dict(manifest['banks'],**baseline['banks']),
+        files=dict(manifest['files'],**baseline['files']), baseline_export_sha256=digest(baseline))
     for name, info in manifest['files'].items():
         path = REPO/'data'/name
         assert path.is_file(), f'Missing frozen data: {path}; run tools/export_talos_data.py'
         assert path.stat().st_size == info['bytes'] and sha(path) == info['sha256'], name
     p = protocol()
-    for key in ('stage2', 'harmful', 'mixed'):
+    for key in manifest['banks']:
         entry = manifest['banks'][key]
         rows = read_rows(REPO/'data'/entry['rows_file'])
         encoded = load(REPO/'data'/entry['encoding_file'])
@@ -57,7 +71,7 @@ def check_data():
         assert digest(refs) == entry['reference_digest']
         ids = [r['pair_id'] for r in rows]
         assert len(ids) == len(set(ids)) == entry['rows']
-        assert set(ids) == set(encoded) == {r['pair_id'] for r in refs}
+        assert set(ids) <= set(encoded) and set(ids) == {r['pair_id'] for r in refs}
         lookup = {r['pair_id']: r for r in rows}
         assert all(r['row_sha256'] == digest(lookup[r['pair_id']]) for r in refs)
         for e in encoded.values():
@@ -81,20 +95,21 @@ def code_manifest():
 def prepare(root, job, assets, manifest):
     p = protocol()
     source = manifest['banks'][job['data']]
-    rows = ordered(read_rows(REPO/'data'/source['rows_file']), job['seed'])
+    rows = ordered(read_rows(REPO/'data'/source['rows_file']), job['seed'], job.get('batch_policy')=='balanced_4_harmful_4_benign')
     counts = collections.Counter(r['task_type'] for r in rows)
     assert len(rows) == job['rows'] and counts['harmful'] == job['harmful'] and counts['benign'] == job['benign']
     schedule = [[r['pair_id'] for r in rows[i:i+8]] for i in range(0, len(rows), 8)]
     assert len(schedule) == job['steps']
-    models = load(REPO/'provenance/checkpoint_identities.json')
-    for key in ('initial', 'pi1'):
-        models[key]['path'] = str(Path(assets[key]).expanduser().resolve())
-    # Historical trainer calls its initialization key pi1 even in a pi0 baseline.
-    # Alias pi1 to the verified pi0 entry only for these two baseline arms.
-    if job['initial'] == 'initial':
-        models['pi1'] = dict(models['initial'])
+    if job.get('base_model'):
+        entry=dict(load(REPO/'provenance/baseline_model_identities.json')[job['base_model']])
+        entry['path']=str(Path(assets['base_models'][job['base_model']]).expanduser().resolve())
+        models={'initial':entry,'pi1':dict(entry)}
+    else:
+        models = load(REPO/'provenance/checkpoint_identities.json')
+        for key in ('initial', 'pi1'):
+            models[key]['path'] = str(Path(assets[key]).expanduser().resolve())
     guard = Path(assets['guard_proof']).expanduser().resolve()
-    cfg = dict(version=p['version'], method=job['method'], seed=job['seed'], beta=p['beta'],
+    cfg = dict(version=p['version'], family=job.get('family','qwen3_17b'), optimizer=job.get('optimizer','gpu'), training_gpus=job.get('training_gpus',1), method=job['method'], seed=job['seed'], beta=p['beta'],
         batch_size=8, grad_clip=p['grad_clip'], weight_decay=p['weight_decay'],
         ephemeral_storage=str(root/'scratch'), safety_manifest_sha256=manifest['safety_manifest_digest'],
         safety_generation=p['safety_generation'], guard_model=str(Path(assets['guard']).expanduser().resolve()),
@@ -139,42 +154,37 @@ def prepare(root, job, assets, manifest):
     return cfg
 
 class GPU:
-    def __init__(self, devices, locks):
-        self.devices, self.locks = devices, Path(locks).expanduser().resolve()
-        self.held, self.device = None, None
+    def __init__(self, devices, locks, count=1):
+        import itertools
+        assert count<=len(set(devices)), 'Insufficient selected GPUs for historical optimizer'
+        self.groups=list(itertools.combinations(sorted(set(devices)),count))
+        self.locks=Path(locks).expanduser().resolve();self.held=[]
     def __enter__(self):
-        self.locks.mkdir(parents=True, exist_ok=True)
-        announced = False
-        while self.held is None:
-            for device in self.devices:
-                lock_path = self.locks/f'gpu{device}.lock'
-                # Linux flock can take an exclusive lock on a read-only FD.
-                # Cooperate with the existing owner's inode across user accounts.
-                handle = lock_path.open('r' if lock_path.exists() else 'a')
+        self.locks.mkdir(parents=True,exist_ok=True);announced=False
+        while True:
+            for group in self.groups:
+                handles=[]
                 try:
-                    fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                    for device in group:
+                        path=self.locks/f'gpu{device}.lock'
+                        handle=path.open('r' if path.exists() else 'a');handles.append(handle)
+                        fcntl.flock(handle,fcntl.LOCK_EX|fcntl.LOCK_NB)
+                        used=int(subprocess.check_output(['nvidia-smi','-i',str(device),
+                            '--query-gpu=memory.used','--format=csv,noheader,nounits'],text=True).strip())
+                        if used>=256:raise BlockingIOError('GPU occupied')
+                    self.held=handles
+                    return ','.join(map(str,group))
                 except BlockingIOError:
-                    handle.close()
-                    continue
-                try:
-                    used = int(subprocess.check_output(['nvidia-smi','-i',str(device),
-                        '--query-gpu=memory.used','--format=csv,noheader,nounits'], text=True).strip())
-                    if used < 256:
-                        self.held, self.device = handle, device
-                        break
-                except BaseException:
-                    handle.close()
-                    raise
-                handle.close()
-            if self.held is None:
-                if not announced:
-                    print('Waiting for an idle GPU and its shared lock.', flush=True)
-                    announced = True
-                time.sleep(20)
-        return self.device
-    def __exit__(self, *args):
-        if self.held:
-            self.held.close()
+                    pass
+                finally:
+                    if not self.held:
+                        for handle in handles:handle.close()
+            if not announced:
+                print('Waiting for all required idle GPUs and shared locks.',flush=True);announced=True
+            time.sleep(20)
+    def __exit__(self,*args):
+        for handle in self.held:handle.close()
+
 
 def run_stage(root, name, argv, marker, args, accepted=('complete','passed')):
     if marker.exists():
@@ -190,7 +200,9 @@ def run_stage(root, name, argv, marker, args, accepted=('complete','passed')):
         env['HF_HUB_OFFLINE'] = '1'
     if getattr(args, 'selene_path', None):
         env['TWOSTAGE_SELENE_PATH'] = args.selene_path
-    with GPU(args.gpus, args.lock_dir) as gpu:
+    training=(name=='smoke' or name.startswith(('pilot_lr','full_lr')) and '_dev_' not in name)
+    count=load(root/'config.json')['training_gpus'] if training else 1
+    with GPU(args.gpus, args.lock_dir,count) as gpu:
         env['CUDA_VISIBLE_DEVICES'] = str(gpu)
         with (root/'logs'/f'{name}.log').open('a') as log:
             child = subprocess.Popen([sys.executable, *map(str, argv)], env=env,
@@ -330,11 +342,11 @@ def aggregate(output):
             summaries[arm]['metrics'][metric] = dict(mean=statistics.mean(values) if values else None,
                 sample_std=statistics.stdev(values) if len(values)>1 else None,
                 min=min(values) if values else None,max=max(values) if values else None)
-    result = dict(status='complete' if not pending else 'incomplete',expected=18,completed=len(reports),
+    result = dict(status='complete' if not pending else 'incomplete',expected=len(jobs()),completed=len(reports),
         pending=pending,settings=summaries,per_seed=reports,historical_seed_excluded=2002,
         variation='training seeds conditional on fixed original data/checkpoints; not independent prompt samples')
     save_json(output/'aggregate.json', result)
-    lines = ['# Qwen fixed-setting seed replication','',f"Completed {len(reports)}/18. Mean ± sample SD, percentage points.",'',
+    lines = ['# Two-stage and five-model fixed-setting seed replication','',f"Completed {len(reports)}/{len(jobs())}. Mean ± sample SD, percentage points.",'',
              '| Setting | n | ASR ↓ | Over-refusal ↓ | Definite helpful ↑ |','|---|---:|---:|---:|---:|']
     for arm,v in summaries.items():
         cells=[]

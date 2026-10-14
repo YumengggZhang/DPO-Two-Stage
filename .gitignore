@@ -21,3 +21,6 @@ assets.local.json
 /data/mixed.reference.jsonl
 /data/safety_eval.json
 /data/development.jsonl
+
+/data/baseline_*.jsonl
+/data/baseline_*.encoded.json

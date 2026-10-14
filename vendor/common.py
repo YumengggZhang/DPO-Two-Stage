@@ -55,5 +55,5 @@ def identity(root, key):
         return models[key]
     done = load(root/'training'/key/'complete.json')
     assert done['status'] == 'complete'
-    return dict(path=done['model_output'], files=done['files'], family='qwen3_17b',
+    return dict(path=done['model_output'], files=done['files'], family=config(root).get('family','qwen3_17b'),
                 training_fingerprint=done['run_fingerprint'])

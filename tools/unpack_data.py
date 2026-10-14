@@ -8,8 +8,8 @@ import tarfile
 
 ROOT=Path(__file__).resolve().parents[1]
 
-def main():
-    meta=json.loads((ROOT/'data/archive.json').read_text())
+def unpack(meta_file):
+    meta=json.loads((ROOT/'data'/meta_file).read_text())
     chunks=[]
     for part in meta['parts']:
         data=(ROOT/'data'/part['name']).read_bytes()
@@ -32,5 +32,8 @@ def main():
             else:
                 temp=target.with_name(target.name+'.tmp');temp.write_bytes(raw);temp.replace(target)
     print(f'Verified and restored {len(members)} frozen data files.')
+
+def main():
+    for name in ('archive.json','baseline_archive.json'):unpack(name)
 
 if __name__=='__main__':main()

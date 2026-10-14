@@ -49,6 +49,13 @@ def main():
         verify_files(dict(path=assets[key],files=files),hashes=True)
         if a.permissions_for:
             for name in files:audit(Path(assets[key])/name,a.permissions_for)
+    if assets.get('base_models'):
+        identities=load(ROOT/'provenance/baseline_model_identities.json')
+        for key,entry in identities.items():
+            verify_files(dict(path=assets['base_models'][key],files=entry['files']),hashes=True)
+            if a.permissions_for:
+                for name in entry['files']:audit(Path(assets['base_models'][key])/name,a.permissions_for)
+        proofs.update({k:identities[k]['files'] for k in identities})
     if a.runtime:
         if a.permissions_for:audit(a.runtime,a.permissions_for,execute=True)
         else:assert os.access(a.runtime,os.X_OK)

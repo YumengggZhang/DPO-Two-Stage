@@ -1,0 +1,4 @@
+{"status": "passed", "models": ["initial", "pi1", "guard", "selene", "qwen3_06b", "qwen3_17b", "qwen3_8b", "r1_7b", "r1_15b"], "exact_model_hashes": true, "permissions_for": "yzhong7", "permission_check": "POSIX mode and ACL evaluation, not a login as that user"}
+Filesystem                      1B-blocks          Used   Available Use% Mounted on
+/dev/mapper/vg_home-lv_home  483183820800  469919035392 13264785408  98% /home
+/dev/mapper/vg_home-lv_home 1610612736000 1561566343168 49046392832  97% /tmp

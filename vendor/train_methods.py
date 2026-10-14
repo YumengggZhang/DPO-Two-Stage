@@ -11,7 +11,7 @@ from protocol import LEARNING_RATES, objective_paths
 def models(root, method):
     import torch
     from transformers import AutoModelForCausalLM
-    assert torch.cuda.device_count() == 1
+    assert torch.cuda.device_count() == config(root).get('training_gpus',1)
     def one(key, frozen):
         entry = identity(root, key); verify_files(entry, hashes=True)
         model = AutoModelForCausalLM.from_pretrained(entry['path'], dtype=torch.float32,
@@ -54,14 +54,14 @@ def backward_row(model, teachers, row, encoded, refs, method, beta, divisor):
 def smoke(root):
     import torch
     from transformers import set_seed
-    from gpu_optimizer import GPUAdamW
+    from optimizer_factory import optimizer
     from kl_objective import self_test, answer_kl
     c = config(root); method = c['method']; set_seed(c['seed'])
     tests = self_test(); student, teachers = models(root, method)
     student.train(); student.gradient_checkpointing_enable(gradient_checkpointing_kwargs={'use_reentrant': False})
     rows, enc = bank(root, 'sampled'), encoding(root, 'sampled')
     refs = {r['pair_id']: r for r in read_rows(root/'reference/sampled/scores.jsonl')}
-    opt = GPUAdamW(student); opt.zero_grad(); details = []
+    opt = optimizer(student,c); opt.zero_grad(); details = []
     probe = student.model.layers[0].self_attn.q_proj.weight; before = probe.detach().clone()
     for domain in ('harmful', 'benign'):
         if not any(r['task_type'] == domain for r in rows):
@@ -87,7 +87,7 @@ def smoke(root):
 def train(root, tag, mode):
     import torch
     from transformers import AutoTokenizer, set_seed
-    from gpu_optimizer import GPUAdamW
+    from optimizer_factory import optimizer
     from qwen_encoding import learning_factor
     c = config(root); method = c['method']; lr = LEARNING_RATES[tag]
     rows, enc = bank(root, 'sampled'), encoding(root, 'sampled')
@@ -115,7 +115,7 @@ def train(root, tag, mode):
     set_seed(c['seed']); torch.set_num_threads(8)
     model, teachers = models(root, method); model.train()
     model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={'use_reentrant': False})
-    opt = GPUAdamW(model, lr=lr, weight_decay=c['weight_decay'])
+    opt = optimizer(model,c,lr=lr,weight_decay=c['weight_decay'])
     scheduler = torch.optim.lr_scheduler.LambdaLR(opt.optimizer, lambda s: learning_factor(s, total))
     start = 0
     if resume.exists():
@@ -145,13 +145,14 @@ def train(root, tag, mode):
         metrics.append(v); save_rows(out/'metrics.jsonl', metrics)
         if i % 10 == 0: print(json.dumps(dict(method=method, tag=name, **v)), flush=True)
         if i % 50 == 0 or i == steps:
-            assert shutil.disk_usage(memory).free > 24*1024**3, 'Need atomic resume storage'
+            required_resume=3*sum(p.numel()*4 for p in model.parameters())+3*1024**3
+            assert shutil.disk_usage(memory).free > required_resume, 'Need atomic FP32 model/moments resume storage'
             temp = memory/'resume.tmp'
             torch.save(dict(fingerprint=fp, step=i, model=opt.checkpoint_model(model),
                 optimizer=opt.state_dict(), scheduler=scheduler.state_dict(), python_rng=random.getstate(),
                 torch_rng=torch.get_rng_state(), cuda_rng=torch.cuda.get_rng_state_all()), temp)
             temp.replace(resume)
-            save_json(out/'resume.json', dict(step=i, path=str(resume), ephemeral=True))
+            save_json(out/'resume.json', dict(step=i, path=str(resume), ephemeral=False))
     assert all(p.grad is None for t in teachers.values() for p in t.parameters())
     del teachers; model.gradient_checkpointing_disable(); model.config.use_cache = True
     if mode == 'pilot': model.to(dtype=torch.bfloat16)
@@ -163,7 +164,7 @@ def train(root, tag, mode):
     save_json(out/'complete.json', dict(status='complete', run_fingerprint=fp, model_output=str(target),
         files=weights_proof(target), steps=steps, rows_seen=sum(map(len, batches[:steps])), learning_rate=lr,
         metrics_sha256=digest(metrics), initial_policy=c['job']['initial'], reference=c['job']['reference'], method=method, total_schedule_steps=total,
-        mode=mode, export_dtype='BF16' if mode=='pilot' else 'FP32', pilot_export_ephemeral=mode=='pilot'))
+        mode=mode, export_dtype='BF16' if mode=='pilot' else 'FP32', pilot_export_ephemeral=False))
     # Only this run's temporary optimizer state is removed after verified model export.
     resume.unlink(missing_ok=True)
 

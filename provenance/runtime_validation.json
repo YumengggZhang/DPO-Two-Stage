@@ -21,9 +21,20 @@
   },
   "kernel_matches_original_remote": true,
   "new_seed_GPU_experiments_started": false,
-  "talos_unit_tests": 9,
-  "talos_unit_tests_passed": 9,
+  "talos_unit_tests": 12,
+  "talos_unit_tests_passed": 12,
   "talos_unit_tests_skipped": 0,
-  "shared_model_hash_and_acl_check": "passed for yzhong7; POSIX/ACL audit, not a login",
-  "gpu_experiments_started": false
+  "shared_model_hash_and_acl_check": "all five pi0, original pi1, Guard and Selene passed for yzhong7; not a login",
+  "gpu_experiments_started": false,
+  "v1_talos_unit_tests": 9,
+  "scope": "42 formal runs: 12 Qwen stage2 +30 five-model public-answer baselines",
+  "baseline_data_files": 14,
+  "baseline_unpacked_bytes": 53028290,
+  "r1_numerical_functions_AST_identical_to_original": [
+    "logps",
+    "backward_dpo",
+    "learning_factor"
+  ],
+  "home_available_bytes": 13264785408,
+  "tmp_available_bytes": 49046392832
 }

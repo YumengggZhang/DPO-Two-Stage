@@ -1,6 +1,6 @@
 {
   "seed": 2002,
-  "role": "historical reference only; do not combine with new three seeds",
+  "role": "historical Wild reference only; two old Wild baseline keys are not current jobs; five-model clean/mixed source is historical_five_model_results.md",
   "settings": {
     "method1_dpo": {
       "ASR": 0.58,

@@ -3,5 +3,12 @@
   "pi1": "/home/users/yzhang92/twostage_share_20261014/pi1",
   "guard": "/home/users/yzhang92/twostage_share_20261014/guard",
   "guard_proof": "/home/users/yzhang92/twostage_share_20261014/guard_proof.json",
-  "selene": "/home/users/yzhang92/twostage_share_20261014/selene"
+  "selene": "/home/users/yzhang92/twostage_share_20261014/selene",
+  "base_models": {
+    "qwen3_06b": "/home/users/yzhang92/twostage_share_20261014/qwen3_06b",
+    "qwen3_17b": "/tmp/yzhang92-qwen3-17b-20260919/hf-cache/models--Qwen--Qwen3-1.7B/snapshots/70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+    "qwen3_8b": "/home/users/yzhang92/twostage_share_20261014/qwen3_8b",
+    "r1_7b": "/home/users/yzhang92/twostage_share_20261014/r1_7b",
+    "r1_15b": "/home/users/yzhang92/twostage_share_20261014/r1_15b"
+  }
 }
