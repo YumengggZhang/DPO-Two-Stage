@@ -13,8 +13,8 @@ sys.path.insert(0,str(ROOT))
 import reproduce
 
 def main():
-    manifest=reproduce.load(ROOT/'data/baseline_manifest.json') if '--baseline' in sys.argv else reproduce.load(ROOT/'data/manifest.json')
-    prefix='baseline_data' if '--baseline' in sys.argv else 'frozen_data'
+    manifest=reproduce.load(ROOT/'data/wild_manifest.json') if '--wild' in sys.argv else reproduce.load(ROOT/'data/manifest.json')
+    prefix='wild_data' if '--wild' in sys.argv else 'frozen_data'
     buffer=io.BytesIO()
     with gzip.GzipFile(fileobj=buffer,mode='wb',mtime=0,filename='') as gz:
         with tarfile.open(fileobj=gz,mode='w|') as tf:
@@ -30,7 +30,7 @@ def main():
     value=dict(format='concatenated gzip tar',archive_bytes=len(content),
         archive_sha256=hashlib.sha256(content).hexdigest(),parts=parts,
         unpacked_files=manifest['files'])
-    (ROOT/'data'/('baseline_archive.json' if '--baseline' in sys.argv else 'archive.json')).write_text(json.dumps(value,indent=2)+'\n')
+    (ROOT/'data'/('wild_archive.json' if '--wild' in sys.argv else 'archive.json')).write_text(json.dumps(value,indent=2)+'\n')
     print(json.dumps(dict(uncompressed_bytes=sum(v['bytes'] for v in manifest['files'].values()),
                          compressed_bytes=len(content),parts=len(parts))))
 

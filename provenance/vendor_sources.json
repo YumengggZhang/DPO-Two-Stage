@@ -96,5 +96,18 @@
     "source_sha256": "97d33e1f95203e2ab24c4e2d24dc8fd664462bc86ec6f40454788d1fc20bcfec",
     "export_sha256": "97d33e1f95203e2ab24c4e2d24dc8fd664462bc86ec6f40454788d1fc20bcfec",
     "modified_for_portability": false
+  },
+  {
+    "file": "vendor/safety_pair_v3_encoding.py",
+    "source": "scripts/safety_pair_v3_encoding.py",
+    "source_sha256": "ba44587721271bf14220c9ef6e93638847cbfa156d6e91671aba3476327ee952",
+    "export_sha256": "ba44587721271bf14220c9ef6e93638847cbfa156d6e91671aba3476327ee952",
+    "modified_for_portability": false
+  },
+  {
+    "file": "vendor/prepare_reference.py",
+    "source": "new portable fixed-pi0 reference cache; reuses original qwen_encoding.logps",
+    "export_sha256": "4615cb89492ebcbee5be212f9aaa0c58ffdd22763e508fb6cfe1d22364807bdb",
+    "modified_for_portability": true
   }
 ]

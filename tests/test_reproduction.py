@@ -45,8 +45,9 @@ class ProtocolTests(unittest.TestCase):
         self.assertEqual(len(baselines),10)
         self.assertEqual({v['base_model'] for v in baselines},{'qwen3_06b','qwen3_17b','qwen3_8b','r1_15b','r1_7b'})
         for v in baselines:
-            self.assertEqual((v['initial'],v['reference'],v['lr']),('initial','initial',1e-5))
-            self.assertEqual((v['rows'],v['steps']),(1000,125) if v['benign']==0 else (2000,250))
+            self.assertEqual((v['initial'],v['reference']),('initial','initial'))
+            self.assertEqual(v['lr'],1e-5 if v['benign']==0 else 3e-6)
+            self.assertEqual((v['rows'],v['steps']),(828,104) if v['benign']==0 else (1828,229))
             self.assertEqual(v['training_gpus'],2 if v['base_model']=='r1_7b' else 1)
 
     def test_reporting_excludes_development_and_preserves_unknown(self):
@@ -78,14 +79,21 @@ class ProtocolTests(unittest.TestCase):
             schedules=[]
             for job in r.jobs(seeds=[2003]):
                 out=Path(temp)/job['arm']
-                cfg=r.prepare(out,job,assets,manifest)
+                override=None
+                if job.get('base_model') and job['base_model']!='qwen3_17b':
+                    with self.assertRaises(AssertionError):r.prepare(out,job,assets,manifest)
+                    # Neutral scores exercise preparation plumbing only, not model scoring.
+                    values=[dict(pair_id=x['pair_id'],row_sha256=r.digest(x),scores={'positive':0.,'negative':0.}) for x in r.read_rows(ROOT/'data'/manifest['banks'][job['data']]['rows_file'])]
+                    fixture=Path(temp)/(job['arm']+'.fixture.jsonl');r.save_rows(fixture,values)
+                    override=dict(reference_path=str(fixture),reference_digest=r.digest(values))
+                cfg=r.prepare(out,job,assets,manifest,override)
                 models=r.load(out/'models.json')
                 self.assertEqual(models['pi1']['path'],'/fixed/'+job['base_model'] if job.get('base_model') else '/fixed/pi1')
                 self.assertEqual(len(r.read_rows(out/'data/sampled.jsonl')),job['rows'])
-                self.assertEqual(cfg,r.prepare(out,job,assets,manifest))
+                self.assertEqual(cfg,r.prepare(out,job,assets,manifest,override))
                 if job['data']=='stage2':schedules.append(r.load(out/'schedule.json')['sha256'])
                 other=dict(job,seed=2004)
-                with self.assertRaises(AssertionError):r.prepare(out,other,assets,manifest)
+                with self.assertRaises(AssertionError):r.prepare(out,other,assets,manifest,override)
             self.assertEqual(len(set(schedules)),1)
             from common import identity
             # Evaluator family follows the actual trained model, including R1.
@@ -114,16 +122,67 @@ class ProtocolTests(unittest.TestCase):
             for path in paths:
                 with path.open('r') as handle:fcntl.flock(handle,fcntl.LOCK_EX|fcntl.LOCK_NB)
 
-    def test_historical_schedules_and_balanced_new_seeds(self):
+    def test_all_wild_public_data_and_seed_order(self):
         manifest=r.check_data()
-        for bank,expected in [('clean1000','fde70b759060fa0826c5f701e40c773f43abf70c23a8fc8453a4178aeb607000'),('mixed2000','633025bd275f62d492a8f7226e34fd91d2d872716e9ef35e6b5591b9f105d5ef')]:
-            rows=r.read_rows(ROOT/'data'/manifest['banks']['qwen3_17b_'+bank]['rows_file'])
-            ordered=r.ordered(rows,2002,bank=='mixed2000')
-            self.assertEqual(r.digest([[x['pair_id'] for x in ordered[i:i+8]] for i in range(0,len(ordered),8)]),expected)
-            for seed in (2003,2004,2005):
-                ordered=r.ordered(rows,seed,bank=='mixed2000')
-                if bank=='mixed2000':
-                    self.assertTrue(all(sum(x['task_type']=='harmful' for x in ordered[i:i+8])==4 for i in range(0,2000,8)))
+        rows=r.read_rows(ROOT/'data/wild_mixed.jsonl')
+        harmful=r.read_rows(ROOT/'data/harmful.jsonl')
+        lookup={x['pair_id']:x for x in rows}
+        self.assertEqual(len(rows),1828)
+        self.assertTrue(all(x==lookup[x['pair_id']] for x in harmful))
+        benign=[x for x in rows if x['task_type']=='benign']
+        self.assertEqual(len(benign),1000)
+        self.assertEqual(sum(x['group']=='vanilla_benign' for x in benign),498)
+        for x in benign:
+            self.assertEqual(x['source_evidence']['chosen']['dataset'],'allenai/wildjailbreak')
+            self.assertEqual(x['source_evidence']['rejected']['dataset'],'allenai/wildguardmix')
+        for model in ('qwen3_06b','qwen3_17b','qwen3_8b','r1_15b','r1_7b'):
+            self.assertEqual(manifest['banks'][model+'_wild_mixed']['rows_digest'],r.digest(rows))
+            self.assertEqual(manifest['banks'][model+'_wild_harmful']['rows_digest'],r.digest(harmful))
+        for seed in (2003,2004,2005):
+            ordered=r.ordered(rows,seed)
+            self.assertEqual(len({x['pair_id'] for x in ordered}),1828)
+            self.assertEqual(sum(x['task_type']=='harmful' for x in ordered),828)
+            self.assertEqual(r.digest(ordered),r.digest(r.ordered(rows,seed)))
+
+    def test_model_reference_cache_reuse_and_wrong_model_rejected(self):
+        from unittest.mock import patch
+        manifest=r.check_data()
+        assets={'base_models':{key:'/fixed/'+key for key in r.load(ROOT/'provenance/baseline_model_identities.json')}}
+        job=next(x for x in r.jobs(seeds=[2003]) if x['arm']=='baseline_r1_15b_wild_harmful')
+        with tempfile.TemporaryDirectory() as temp:
+            def stage(root,*unused):
+                cfg=r.load(root/'config.json');entry=cfg['reference_model']
+                fp=r.digest(dict(config_sha256=r.digest(cfg),reference_model=entry,rows_sha256=cfg['banks']['sampled']['sha256'],encoding_sha256=cfg['banks']['sampled']['encoded_sha256'],score_reduction='sequence_sum_including_EOS',parameters='FP32',forward='BF16',optimization_steps=0))
+                values=[dict(pair_id=x['pair_id'],row_sha256=r.digest(x),scores={'positive':0.,'negative':0.},run_fingerprint=fp) for x in r.read_rows(root/'data/sampled.jsonl')]
+                path=root/'reference/scores.jsonl';r.save_rows(path,values)
+                r.save_json(root/'reference/complete.json',dict(status='complete',rows=1828,scores_sha256=r.digest(values),file_sha256=r.sha(path),reference_model_files_digest=r.digest(entry['files']),run_fingerprint=fp,optimization_steps=0,new_answers=0))
+            with patch.object(r,'run_stage',side_effect=stage):
+                result=r.prepare_reference_cache(Path(temp),job,assets,manifest,None)
+            self.assertEqual(len(r.read_rows(Path(result['reference_path']))),828)
+            with patch.object(r,'run_stage'):
+                repeated=r.prepare_reference_cache(Path(temp),dict(job,seed=2004),assets,manifest,None)
+            self.assertEqual(repeated,result)
+            proof=Path(temp)/'reference_cache/r1_15b/reference/complete.json';value=r.load(proof);value['reference_model_files_digest']='wrong_model';r.save_json(proof,value)
+            with patch.object(r,'run_stage'),self.assertRaises(AssertionError):r.prepare_reference_cache(Path(temp),job,assets,manifest,None)
+
+    @unittest.skipUnless(importlib.util.find_spec('torch'),'PyTorch unavailable in this environment')
+    def test_reference_scoring_is_gradient_free_and_resumable(self):
+        import torch
+        from prepare_reference import score_rows
+        class Tiny(torch.nn.Module):
+            def __init__(self):
+                super().__init__();self.weight=torch.nn.Parameter(torch.arange(21,dtype=torch.float32).reshape(3,7)/10)
+            def forward(self,input_ids,use_cache=False):
+                from types import SimpleNamespace
+                return SimpleNamespace(logits=self.weight[:input_ids.shape[1]].unsqueeze(0))
+        model=Tiny();rows=[{'pair_id':str(i)} for i in range(2)]
+        enc={x['pair_id']:{side:dict(ids=[1,2,3],start=1) for side in ('positive','negative')} for x in rows}
+        emitted=[];done=score_rows(model,rows,enc,[],'fp',emitted.append)
+        self.assertEqual(len(emitted),2);self.assertIsNone(model.weight.grad)
+        retried=[];again=score_rows(model,rows,enc,emitted,'fp',retried.append)
+        self.assertEqual(done,again);self.assertEqual(retried,[])
+        wrong=copy.deepcopy(emitted);wrong[0]['run_fingerprint']='other'
+        with self.assertRaises(AssertionError):score_rows(model,rows,enc,wrong,'fp',retried.append)
 
     @unittest.skipUnless(importlib.util.find_spec('torch'),'PyTorch unavailable in this environment')
     def test_cpu_optimizer_matches_adamw_and_resume(self):

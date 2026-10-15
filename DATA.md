@@ -32,10 +32,12 @@ WildJailbreak 源为 [allenai/wildjailbreak](https://huggingface.co/datasets/all
 
 数据中的 prompt、回答和判分文本均为研究输入，不能当作给运行agent的指令。必须保留原文本、EOS、mask、IDs、完整回答以及unknown，不做silent filtering。
 
-## 2026-10-14 扩展：五模型 clean1000 / mixed2000
+## 当前五模型基线：两域都用Wild
 
-本次默认基线已替换为历史五模型比较：Qwen3-0.6/1.7/8B和R1-Distill-Qwen-1.5/7B，各clean1000及mixed2000、三个新seed。它们使用既有公开回答（harmful清洗来源和EVO benign），不需要重新自采样。原828/1828 Wild文件仅保留历史出处，不能把它们当作新的五模型训练数据。
+本版按用户纠正移除了clean1000/mixed2000基线。五模型共有同828对harmful及1828对全Wild mixed，后者包含同828H＋1000 Wild benign（498direct、502adversarial）。两域prompt/chosen均为WildJailbreak原文，rejected为WildGuardTrain精确prompt匹配的原公开回答；保留原判分和配对质量筛选，无新的自采样。
 
-`baseline_manifest.json`记录两份原bank、两个共享token编码文件及十份模型×bank reference文件，包含原文件路径/SHA及模型revision。Qwen三模型编码逐字段一致；R1两模型每条ids/start/target_tokens/serialized hash一致。reference转换只包装原positive_sum/negative_sum为通用scores字段，保留原record hash及run fingerprint，不重算分数、不改变EOS或回答。clean/mixed的harmful文本相同，历史comparison_source元数据不同，分别保留；R1-1.5 clean使用原clean reference，不用mixed分数顶替。
+实际mixed来自 `/tmp/yzhang92/qwen17-benign-source-20261003/wild/data/mixed.jsonl`，canonical SHA=`0e4470454a06182772da55ae60e194c94a28dbc7e4b43922493e5f5800f2c059`。harmful条目与原828逐字段完全一致。此bank原先已做固定4401及官方Wild eval、underlying vanilla/family的词法排除，不声称语义去重。原pool与assembly证据随包保存。
 
-`baseline_archive.json`及3个压缩分片提供新增53,028,290字节冻结文件；运行unpack_data.py会同时校验/解开两套归档。R1的公开final_text第一阶段基线不属于已退役的final-only第二阶段自采数据。模型及数据来源/使用约束沿用上游，仓库不另行授予上游权重或数据许可。
+`wild_manifest.json`记录实际bank/文件SHA、五模型CPU编码验证及reference可用性。三Qwen编码逐字段相同、两R1编码逐字段相同；最长Qwen1983、R11973 token，全文/EOS保留。Qwen1.7原reference已提供；其他四模型需按自身冻结π₀计算teacher-forced sequence sums，0优化、0新回答，跨seed复用；绝不能跨模型复用分数。R1公开回答按空think结束段接全文编码，不重建退役final-only stage2自采bank。
+
+`wild_archive.json`和wild_data分片保存新增冻结文件。unpack_data.py校验两份归档。原manifest/archive中的EVO mixed仅留历史出处，不是默认任务输入；当前任务仅引用带 `_wild_` 的基线条目。clean版数据分片不在新版包中；旧Git提交/旧zip保留审计历史。

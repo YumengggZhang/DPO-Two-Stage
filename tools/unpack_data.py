@@ -34,6 +34,6 @@ def unpack(meta_file):
     print(f'Verified and restored {len(members)} frozen data files.')
 
 def main():
-    for name in ('archive.json','baseline_archive.json'):unpack(name)
+    for name in ('archive.json','wild_archive.json'):unpack(name)
 
 if __name__=='__main__':main()

@@ -52,7 +52,7 @@ def ordered(rows, seed, balanced=False):
 def check_data():
     manifest = load(REPO/'data/manifest.json')
     assert manifest['status'] == 'verified_export'
-    baseline=load(REPO/'data/baseline_manifest.json')
+    baseline=load(REPO/'data/wild_manifest.json')
     assert baseline['status']=='verified_export'
     manifest=dict(manifest, banks=dict(manifest['banks'],**baseline['banks']),
         files=dict(manifest['files'],**baseline['files']), baseline_export_sha256=digest(baseline))
@@ -65,15 +65,16 @@ def check_data():
         entry = manifest['banks'][key]
         rows = read_rows(REPO/'data'/entry['rows_file'])
         encoded = load(REPO/'data'/entry['encoding_file'])
-        refs = read_rows(REPO/'data'/entry['reference_file'])
+        refs = read_rows(REPO/'data'/entry['reference_file']) if entry.get('reference_file') else None
         assert digest(rows) == entry['rows_digest']
         assert digest(encoded) == entry['encoding_digest']
-        assert digest(refs) == entry['reference_digest']
+        if refs is not None:assert digest(refs) == entry['reference_digest']
         ids = [r['pair_id'] for r in rows]
         assert len(ids) == len(set(ids)) == entry['rows']
-        assert set(ids) <= set(encoded) and set(ids) == {r['pair_id'] for r in refs}
+        assert set(ids) <= set(encoded)
+        if refs is not None:assert set(ids) == {r['pair_id'] for r in refs}
         lookup = {r['pair_id']: r for r in rows}
-        assert all(r['row_sha256'] == digest(lookup[r['pair_id']]) for r in refs)
+        if refs is not None:assert all(r['row_sha256'] == digest(lookup[r['pair_id']]) for r in refs)
         for e in encoded.values():
             assert set(e) == {'positive', 'negative'}
             for side in e.values():
@@ -92,9 +93,11 @@ def code_manifest():
     return {str(f.relative_to(REPO)): sha(f) for f in sorted(REPO.rglob('*.py'))
             if not any(x in f.parts for x in ('runs', '__pycache__'))}
 
-def prepare(root, job, assets, manifest):
+def prepare(root, job, assets, manifest, reference_override=None):
     p = protocol()
-    source = manifest['banks'][job['data']]
+    source = dict(manifest['banks'][job['data']])
+    if reference_override:source.update(reference_override)
+    assert source.get('reference_file') or source.get('reference_path'), 'Missing model-specific pi0 scores; prepare the reference cache first'
     rows = ordered(read_rows(REPO/'data'/source['rows_file']), job['seed'], job.get('batch_policy')=='balanced_4_harmful_4_benign')
     counts = collections.Counter(r['task_type'] for r in rows)
     assert len(rows) == job['rows'] and counts['harmful'] == job['harmful'] and counts['benign'] == job['benign']
@@ -137,7 +140,8 @@ def prepare(root, job, assets, manifest):
             assert link.resolve() == destination
         else:
             link.symlink_to(destination)
-    link, destination = root/'reference/sampled/scores.jsonl', (REPO/'data'/source['reference_file']).resolve()
+    link=root/'reference/sampled/scores.jsonl'
+    destination=Path(source['reference_path']).resolve() if source.get('reference_path') else (REPO/'data'/source['reference_file']).resolve()
     if link.is_symlink() or link.exists():
         assert link.resolve() == destination
     else:
@@ -274,12 +278,53 @@ def complete_run(root, tag):
         preflight=load(root/'development'/tag.replace('full_', 'pilot_')/'quality_diagnostic.json'),
         final_development=load(root/'development'/tag/'quality_diagnostic.json')))
 
+def prepare_reference_cache(output, job, assets, manifest, args):
+    source=manifest['banks'][job['data']]
+    if source.get('reference_file'):return None
+    key=job['base_model'];mixed=manifest['banks'][key+'_wild_mixed']
+    root=output/'reference_cache'/key;root.mkdir(parents=True,exist_ok=True)
+    lock=(root/'controller.lock').open('a')
+    fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+    try:
+        entry=dict(load(REPO/'provenance/baseline_model_identities.json')[key])
+        entry['path']=str(Path(assets['base_models'][key]).expanduser().resolve())
+        cfg=dict(purpose='frozen_pi0_reference_only',family=key,training_gpus=1,
+            code_sha256=digest(code_manifest()),banks={'sampled':dict(sha256=mixed['rows_digest'],encoded_sha256=mixed['encoding_digest'])},
+            protocol_sha256=digest(protocol()),reference_model=entry)
+        if (root/'config.json').exists():
+            assert load(root/'config.json')==cfg,'Reference cache identity changed; use a new output directory'
+            assert load(root/'models.json')=={'initial':entry}
+        else:
+            for folder in ('data','reference','state','logs'):(root/folder).mkdir(exist_ok=True)
+            for name,destination in [('sampled.jsonl',mixed['rows_file']),('sampled.encoded.json',mixed['encoding_file'])]:
+                (root/'data'/name).symlink_to((REPO/'data'/destination).resolve())
+            save_json(root/'models.json',{'initial':entry});save_json(root/'config.json',cfg)
+            save_json(root/'config.sha.json',{'sha256':digest(cfg)})
+        run_stage(root,'reference',[REPO/'vendor/prepare_reference.py','--root',root],root/'reference/complete.json',args)
+        proof=load(root/'reference/complete.json');values=read_rows(root/'reference/scores.jsonl')
+        assert sha(root/'reference/scores.jsonl')==proof['file_sha256'] and digest(values)==proof['scores_sha256']
+        assert proof['reference_model_files_digest']==digest(entry['files']) and proof['optimization_steps']==proof['new_answers']==0
+        expected_fp=digest(dict(config_sha256=digest(cfg),reference_model=entry,rows_sha256=mixed['rows_digest'],encoding_sha256=mixed['encoding_digest'],score_reduction='sequence_sum_including_EOS',parameters='FP32',forward='BF16',optimization_steps=0))
+        assert proof['run_fingerprint']==expected_fp and all(r['run_fingerprint']==expected_fp for r in values)
+        lookup={r['pair_id']:r for r in read_rows(REPO/'data'/mixed['rows_file'])}
+        assert len(values)==len(lookup) and {r['pair_id'] for r in values}==set(lookup)
+        assert all(r['row_sha256']==digest(lookup[r['pair_id']]) for r in values)
+        bankrows=read_rows(REPO/'data'/source['rows_file']);needed={r['pair_id'] for r in bankrows}
+        subset=[r for r in values if r['pair_id'] in needed]
+        assert {r['pair_id'] for r in subset}==needed
+        path=root/'reference'/(job['data']+'.scores.jsonl')
+        if path.exists():assert read_rows(path)==subset
+        else:save_rows(path,subset)
+        return dict(reference_path=str(path),reference_digest=digest(subset))
+    finally:lock.close()
+
 def one_run(root, job, assets, manifest, args):
     root.mkdir(parents=True, exist_ok=True)
     lock = (root/'controller.lock').open('a')
     fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
     try:
-        prepare(root, job, assets, manifest)
+        override=prepare_reference_cache(args.output.expanduser().resolve(),job,assets,manifest,args)
+        prepare(root, job, assets, manifest,override)
         for entry in load(root/'models.json').values():
             verify_files(entry, hashes=True)
         verify_files(dict(path=assets['guard'], files=load(root/'guard_proof.json')['files']), hashes=True)
@@ -361,7 +406,7 @@ def aggregate(output):
 
 def main():
     a=argparse.ArgumentParser(description=__doc__)
-    a.add_argument('command',choices=['plan','verify-data','run','summarize'])
+    a.add_argument('command',choices=['plan','verify-data','prepare-references','run','summarize'])
     a.add_argument('--assets',type=Path,default=REPO/'assets.talos.json')
     a.add_argument('--output',type=Path,default=REPO/'runs')
     a.add_argument('--arms',nargs='+');a.add_argument('--seeds',nargs='+',type=int)
@@ -382,9 +427,11 @@ def main():
     if args.selene_path:
         verify_files(dict(path=args.selene_path,files=load(REPO/'provenance/selene_shared_proof.json')['files']),hashes=True)
     for job in jobs(args.arms,args.seeds):
+        if args.command=='prepare-references':
+            prepare_reference_cache(output,job,assets,manifest,args);continue
         print(f"Starting {job['arm']} seed={job['seed']}",flush=True)
         one_run(output/job['arm']/str(job['seed']),job,assets,manifest,args)
-    aggregate(output)
+    if args.command!='prepare-references':aggregate(output)
 
 if __name__=='__main__':
     main()

@@ -1,5 +1,5 @@
 {
-  "version": "twostage_five_model_multiseed_20261014_v2",
+  "version": "twostage_five_model_allwild_multiseed_20261014_v3",
   "family": "qwen3_17b_stage2_plus_five_model_public_answer_baselines",
   "seeds": [
     2003,
@@ -54,165 +54,165 @@
       "benign_kl_paths": "both",
       "kl_lambda": 1.0
     },
-    "baseline_qwen3_06b_clean1000": {
+    "baseline_qwen3_06b_wild_harmful": {
       "method": "dpo",
-      "data": "qwen3_06b_clean1000",
+      "data": "qwen3_06b_wild_harmful",
       "initial": "initial",
       "reference": "initial",
       "lr": 1e-05,
-      "rows": 1000,
-      "harmful": 1000,
+      "rows": 828,
+      "harmful": 828,
       "benign": 0,
-      "steps": 125,
+      "steps": 104,
       "family": "qwen3_06b",
       "base_model": "qwen3_06b",
       "optimizer": "streaming_cpu",
       "training_gpus": 1,
-      "batch_policy": "shuffle_harmful_8"
+      "batch_policy": "seeded_shuffle_once_no_resampling"
     },
-    "baseline_qwen3_06b_mixed2000": {
+    "baseline_qwen3_06b_wild_mixed": {
       "method": "dpo",
-      "data": "qwen3_06b_mixed2000",
+      "data": "qwen3_06b_wild_mixed",
       "initial": "initial",
       "reference": "initial",
-      "lr": 1e-05,
-      "rows": 2000,
-      "harmful": 1000,
+      "lr": 3e-06,
+      "rows": 1828,
+      "harmful": 828,
       "benign": 1000,
-      "steps": 250,
+      "steps": 229,
       "family": "qwen3_06b",
       "base_model": "qwen3_06b",
       "optimizer": "streaming_cpu",
       "training_gpus": 1,
-      "batch_policy": "balanced_4_harmful_4_benign"
+      "batch_policy": "seeded_shuffle_once_no_resampling"
     },
-    "baseline_qwen3_17b_clean1000": {
+    "baseline_qwen3_17b_wild_harmful": {
       "method": "dpo",
-      "data": "qwen3_17b_clean1000",
+      "data": "qwen3_17b_wild_harmful",
       "initial": "initial",
       "reference": "initial",
       "lr": 1e-05,
-      "rows": 1000,
-      "harmful": 1000,
+      "rows": 828,
+      "harmful": 828,
       "benign": 0,
-      "steps": 125,
+      "steps": 104,
       "family": "qwen3_17b",
       "base_model": "qwen3_17b",
       "optimizer": "gpu",
       "training_gpus": 1,
-      "batch_policy": "shuffle_harmful_8"
+      "batch_policy": "seeded_shuffle_once_no_resampling"
     },
-    "baseline_qwen3_17b_mixed2000": {
+    "baseline_qwen3_17b_wild_mixed": {
       "method": "dpo",
-      "data": "qwen3_17b_mixed2000",
+      "data": "qwen3_17b_wild_mixed",
       "initial": "initial",
       "reference": "initial",
-      "lr": 1e-05,
-      "rows": 2000,
-      "harmful": 1000,
+      "lr": 3e-06,
+      "rows": 1828,
+      "harmful": 828,
       "benign": 1000,
-      "steps": 250,
+      "steps": 229,
       "family": "qwen3_17b",
       "base_model": "qwen3_17b",
       "optimizer": "gpu",
       "training_gpus": 1,
-      "batch_policy": "balanced_4_harmful_4_benign"
+      "batch_policy": "seeded_shuffle_once_no_resampling"
     },
-    "baseline_qwen3_8b_clean1000": {
+    "baseline_qwen3_8b_wild_harmful": {
       "method": "dpo",
-      "data": "qwen3_8b_clean1000",
+      "data": "qwen3_8b_wild_harmful",
       "initial": "initial",
       "reference": "initial",
       "lr": 1e-05,
-      "rows": 1000,
-      "harmful": 1000,
+      "rows": 828,
+      "harmful": 828,
       "benign": 0,
-      "steps": 125,
+      "steps": 104,
       "family": "qwen3_8b",
       "base_model": "qwen3_8b",
       "optimizer": "streaming_cpu",
       "training_gpus": 1,
-      "batch_policy": "shuffle_harmful_8"
+      "batch_policy": "seeded_shuffle_once_no_resampling"
     },
-    "baseline_qwen3_8b_mixed2000": {
+    "baseline_qwen3_8b_wild_mixed": {
       "method": "dpo",
-      "data": "qwen3_8b_mixed2000",
+      "data": "qwen3_8b_wild_mixed",
       "initial": "initial",
       "reference": "initial",
-      "lr": 1e-05,
-      "rows": 2000,
-      "harmful": 1000,
+      "lr": 3e-06,
+      "rows": 1828,
+      "harmful": 828,
       "benign": 1000,
-      "steps": 250,
+      "steps": 229,
       "family": "qwen3_8b",
       "base_model": "qwen3_8b",
       "optimizer": "streaming_cpu",
       "training_gpus": 1,
-      "batch_policy": "balanced_4_harmful_4_benign"
+      "batch_policy": "seeded_shuffle_once_no_resampling"
     },
-    "baseline_r1_15b_clean1000": {
+    "baseline_r1_15b_wild_harmful": {
       "method": "dpo",
-      "data": "r1_15b_clean1000",
+      "data": "r1_15b_wild_harmful",
       "initial": "initial",
       "reference": "initial",
       "lr": 1e-05,
-      "rows": 1000,
-      "harmful": 1000,
+      "rows": 828,
+      "harmful": 828,
       "benign": 0,
-      "steps": 125,
+      "steps": 104,
       "family": "r1_15b",
       "base_model": "r1_15b",
       "optimizer": "cpu",
       "training_gpus": 1,
-      "batch_policy": "shuffle_harmful_8"
+      "batch_policy": "seeded_shuffle_once_no_resampling"
     },
-    "baseline_r1_15b_mixed2000": {
+    "baseline_r1_15b_wild_mixed": {
       "method": "dpo",
-      "data": "r1_15b_mixed2000",
+      "data": "r1_15b_wild_mixed",
       "initial": "initial",
       "reference": "initial",
-      "lr": 1e-05,
-      "rows": 2000,
-      "harmful": 1000,
+      "lr": 3e-06,
+      "rows": 1828,
+      "harmful": 828,
       "benign": 1000,
-      "steps": 250,
+      "steps": 229,
       "family": "r1_15b",
       "base_model": "r1_15b",
       "optimizer": "cpu",
       "training_gpus": 1,
-      "batch_policy": "balanced_4_harmful_4_benign"
+      "batch_policy": "seeded_shuffle_once_no_resampling"
     },
-    "baseline_r1_7b_clean1000": {
+    "baseline_r1_7b_wild_harmful": {
       "method": "dpo",
-      "data": "r1_7b_clean1000",
+      "data": "r1_7b_wild_harmful",
       "initial": "initial",
       "reference": "initial",
       "lr": 1e-05,
-      "rows": 1000,
-      "harmful": 1000,
+      "rows": 828,
+      "harmful": 828,
       "benign": 0,
-      "steps": 125,
+      "steps": 104,
       "family": "r1_7b",
       "base_model": "r1_7b",
       "optimizer": "two_gpu",
       "training_gpus": 2,
-      "batch_policy": "shuffle_harmful_8"
+      "batch_policy": "seeded_shuffle_once_no_resampling"
     },
-    "baseline_r1_7b_mixed2000": {
+    "baseline_r1_7b_wild_mixed": {
       "method": "dpo",
-      "data": "r1_7b_mixed2000",
+      "data": "r1_7b_wild_mixed",
       "initial": "initial",
       "reference": "initial",
-      "lr": 1e-05,
-      "rows": 2000,
-      "harmful": 1000,
+      "lr": 3e-06,
+      "rows": 1828,
+      "harmful": 828,
       "benign": 1000,
-      "steps": 250,
+      "steps": 229,
       "family": "r1_7b",
       "base_model": "r1_7b",
       "optimizer": "two_gpu",
       "training_gpus": 2,
-      "batch_policy": "balanced_4_harmful_4_benign"
+      "batch_policy": "seeded_shuffle_once_no_resampling"
     }
   },
   "epochs": 1,
@@ -249,8 +249,10 @@
     "benign_dev": 200,
     "formal_benign": 3338
   },
-  "replication_scope": "12 Qwen stage2 runs conditional on original pi1/self-sampled banks; 30 five-model clean/mixed public-answer baseline runs conditional on original pi0; 3 new training seeds each",
+  "replication_scope": "12 original Qwen stage2 runs +30 five-model all-Wild public-answer baselines; seeds2003/2004/2005. Four-model Wild extension, not a claim all five previously ran this data.",
   "method4_selection": "best observed historical formal-test operating point, not independently selected on a new development set",
-  "comparison_limit": "clean/mixed reproduce historical public-answer data; separate from Wild two-stage experiments. Different banks, references and exposure do not identify a pure ordering effect.",
-  "baseline_generation": "Qwen enable_thinking=False; R1 native thinking prefix, full continuation retained and judged; same deterministic generation settings"
+  "comparison_limit": "All baseline prompts/chosen from WildJailbreak and published rejected from exact-prompt WildGuardTrain. Stage2 response sources and total exposure differ; no pure ordering claim. clean1000/EVO benign not used in current baseline matrix.",
+  "baseline_generation": "Qwen enable_thinking=False; R1 native thinking prefix, full continuation retained and judged; same deterministic generation settings",
+  "baseline_lr_policy": "Fixed historical Qwen Wild settings transferred to all five: harmful1e-5 and mixed3e-6. One40-step diagnostic per seed, no automatic retuning or seed filtering.",
+  "reference_policy": "Provided original Qwen1.7 pi0 scores; other four original pi0 models compute teacher-forced scores once per mixed bank and reuse/subset across seeds. No response sampling."
 }

@@ -24,3 +24,6 @@ assets.local.json
 
 /data/baseline_*.jsonl
 /data/baseline_*.encoded.json
+
+/data/wild_*.jsonl
+/data/wild_*.encoded.json
