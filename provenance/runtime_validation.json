@@ -1,5 +1,5 @@
 {
-  "date": "2026-10-14",
+  "date": "2026-10-15",
   "host": "Talos",
   "device": "CPU only",
   "checks": {
@@ -21,15 +21,15 @@
   },
   "kernel_matches_original_remote": true,
   "new_seed_GPU_experiments_started": false,
-  "talos_unit_tests": 14,
-  "talos_unit_tests_passed": 14,
+  "talos_unit_tests": 15,
+  "talos_unit_tests_passed": 15,
   "talos_unit_tests_skipped": 0,
   "shared_model_hash_and_acl_check": "all five pi0, original pi1, Guard and Selene passed for yzhong7; not a login",
   "gpu_experiments_started": false,
   "v1_talos_unit_tests": 9,
-  "scope": "12 original Qwen stage2 +30 all-Wild five-model public-answer baselines",
+  "scope": "12 original Qwen stage2 +30five-model off-policy Wild1000/2000 baselines",
   "baseline_data_files": 6,
-  "baseline_unpacked_bytes": 65603213,
+  "baseline_unpacked_bytes": 78612724,
   "r1_numerical_functions_AST_identical_to_original": [
     "logps",
     "backward_dpo",
@@ -37,54 +37,57 @@
   ],
   "home_available_bytes": 13264785408,
   "tmp_available_bytes": 49046392832,
-  "version": "Wild_v3",
+  "version": "Wild1000_v4",
   "model_specific_new_reference_GPU_forward_executed": false,
   "reference_forward_required_on_Talos_by_executor": [
     "qwen3_06b",
+    "qwen3_17b",
     "qwen3_8b",
     "r1_15b",
     "r1_7b"
   ],
   "five_model_tokenizer_CPU_verification": {
     "qwen3_06b": {
-      "model_revision": "c1899de289a04d12100db370d81485cdf75e47ca",
-      "encoding_digest": "3d16c5cc0dc3f1686b29b086cbe0f01f8bcf408b5ee2e7f27d5ffb23c5aa1f8d",
+      "revision": "c1899de289a04d12100db370d81485cdf75e47ca",
+      "encoding_digest": "2b3d44f1ee335c7773eed998021081479b9cdf2026e25f7930d5f338322c443c",
       "max_tokens": 1983,
       "EOS_included": true,
       "no_truncation": true,
       "CPU_only": true
     },
     "qwen3_17b": {
-      "model_revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
-      "encoding_digest": "3d16c5cc0dc3f1686b29b086cbe0f01f8bcf408b5ee2e7f27d5ffb23c5aa1f8d",
+      "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+      "encoding_digest": "2b3d44f1ee335c7773eed998021081479b9cdf2026e25f7930d5f338322c443c",
       "max_tokens": 1983,
       "EOS_included": true,
       "no_truncation": true,
       "CPU_only": true
     },
     "qwen3_8b": {
-      "model_revision": "b968826d9c46dd6066d109eabc6255188de91218",
-      "encoding_digest": "3d16c5cc0dc3f1686b29b086cbe0f01f8bcf408b5ee2e7f27d5ffb23c5aa1f8d",
+      "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+      "encoding_digest": "2b3d44f1ee335c7773eed998021081479b9cdf2026e25f7930d5f338322c443c",
       "max_tokens": 1983,
       "EOS_included": true,
       "no_truncation": true,
       "CPU_only": true
     },
     "r1_7b": {
-      "model_revision": "916b56a44061fd5cd7d6a8fb632557ed4f724f60",
-      "encoding_digest": "dea300f0aa0fb43015be30f433c76de820146856dfcc181bcff7411746ba33b3",
+      "revision": "916b56a44061fd5cd7d6a8fb632557ed4f724f60",
+      "encoding_digest": "532dfb808fb25dcf01b6ee664a6f1fd4c91cd1b0a1fcb9c16f14af09d100648f",
       "max_tokens": 1973,
       "EOS_included": true,
       "no_truncation": true,
       "CPU_only": true
     },
     "r1_15b": {
-      "model_revision": "ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562",
-      "encoding_digest": "dea300f0aa0fb43015be30f433c76de820146856dfcc181bcff7411746ba33b3",
+      "revision": "ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562",
+      "encoding_digest": "532dfb808fb25dcf01b6ee664a6f1fd4c91cd1b0a1fcb9c16f14af09d100648f",
       "max_tokens": 1973,
       "EOS_included": true,
       "no_truncation": true,
       "CPU_only": true
     }
-  }
+  },
+  "cpu_tests_hide_all_CUDA_devices": true,
+  "initial_cpu_adam_test": "PyTorch accelerator health check tried to initialize occupied CUDA context; failed OOM, original log retained. Final suite explicitly CUDA-invisible and all15 passed."
 }

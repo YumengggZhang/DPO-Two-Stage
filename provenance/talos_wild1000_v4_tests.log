@@ -1,0 +1,21 @@
+test_added172_public_only_quality_and_old_banks_preserved (test_reproduction.ProtocolTests.test_added172_public_only_quality_and_old_banks_preserved) ... ok
+test_all_wild_public_data_and_seed_order (test_reproduction.ProtocolTests.test_all_wild_public_data_and_seed_order) ... ok
+test_bank_exposure_and_initialization (test_reproduction.ProtocolTests.test_bank_exposure_and_initialization) ... ok
+test_cpu_optimizer_matches_adamw_and_resume (test_reproduction.ProtocolTests.test_cpu_optimizer_matches_adamw_and_resume) ... ok
+test_dpo_sequence_sum_and_both_answer_gradients (test_reproduction.ProtocolTests.test_dpo_sequence_sum_and_both_answer_gradients) ... ok
+test_four_stage2_and_thirty_baselines (test_reproduction.ProtocolTests.test_four_stage2_and_thirty_baselines) ... ok
+test_frozen_data_integrity (test_reproduction.ProtocolTests.test_frozen_data_integrity) ... ok
+test_full_vocabulary_kl_loss_and_gradient (test_reproduction.ProtocolTests.test_full_vocabulary_kl_loss_and_gradient) ... ok
+test_model_reference_cache_reuse_and_wrong_model_rejected (test_reproduction.ProtocolTests.test_model_reference_cache_reuse_and_wrong_model_rejected) ... ok
+test_objective_routing_and_best_method4 (test_reproduction.ProtocolTests.test_objective_routing_and_best_method4) ... ok
+test_prepare_all_fourteen_real_settings_and_reference_identities (test_reproduction.ProtocolTests.test_prepare_all_fourteen_real_settings_and_reference_identities) ... ok
+test_reference_scoring_is_gradient_free_and_resumable (test_reproduction.ProtocolTests.test_reference_scoring_is_gradient_free_and_resumable) ... ok
+test_reporting_excludes_development_and_preserves_unknown (test_reproduction.ProtocolTests.test_reporting_excludes_development_and_preserves_unknown) ... ok
+test_seeds_change_order_without_changing_data (test_reproduction.ProtocolTests.test_seeds_change_order_without_changing_data) ... ok
+test_two_gpu_lock_acquisition_releases_partial_group (test_reproduction.ProtocolTests.test_two_gpu_lock_acquisition_releases_partial_group) ... Waiting for all required idle GPUs and shared locks.
+ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 40.235s
+
+OK

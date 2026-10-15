@@ -1,3 +1,6 @@
+import os
+# This suite tests CPU math and mocked GPU scheduling; never open a real CUDA context.
+os.environ["CUDA_VISIBLE_DEVICES"] = ""
 import copy
 import importlib.util
 import json
@@ -47,7 +50,7 @@ class ProtocolTests(unittest.TestCase):
         for v in baselines:
             self.assertEqual((v['initial'],v['reference']),('initial','initial'))
             self.assertEqual(v['lr'],1e-5 if v['benign']==0 else 3e-6)
-            self.assertEqual((v['rows'],v['steps']),(828,104) if v['benign']==0 else (1828,229))
+            self.assertEqual((v['rows'],v['steps']),(1000,125) if v['benign']==0 else (2000,250))
             self.assertEqual(v['training_gpus'],2 if v['base_model']=='r1_7b' else 1)
 
     def test_reporting_excludes_development_and_preserves_unknown(self):
@@ -80,7 +83,7 @@ class ProtocolTests(unittest.TestCase):
             for job in r.jobs(seeds=[2003]):
                 out=Path(temp)/job['arm']
                 override=None
-                if job.get('base_model') and job['base_model']!='qwen3_17b':
+                if job.get('base_model'):
                     with self.assertRaises(AssertionError):r.prepare(out,job,assets,manifest)
                     # Neutral scores exercise preparation plumbing only, not model scoring.
                     values=[dict(pair_id=x['pair_id'],row_sha256=r.digest(x),scores={'positive':0.,'negative':0.}) for x in r.read_rows(ROOT/'data'/manifest['banks'][job['data']]['rows_file'])]
@@ -124,10 +127,10 @@ class ProtocolTests(unittest.TestCase):
 
     def test_all_wild_public_data_and_seed_order(self):
         manifest=r.check_data()
-        rows=r.read_rows(ROOT/'data/wild_mixed.jsonl')
+        rows=r.read_rows(ROOT/'data/wild2000_mixed.jsonl')
         harmful=r.read_rows(ROOT/'data/harmful.jsonl')
         lookup={x['pair_id']:x for x in rows}
-        self.assertEqual(len(rows),1828)
+        self.assertEqual(len(rows),2000)
         self.assertTrue(all(x==lookup[x['pair_id']] for x in harmful))
         benign=[x for x in rows if x['task_type']=='benign']
         self.assertEqual(len(benign),1000)
@@ -137,12 +140,34 @@ class ProtocolTests(unittest.TestCase):
             self.assertEqual(x['source_evidence']['rejected']['dataset'],'allenai/wildguardmix')
         for model in ('qwen3_06b','qwen3_17b','qwen3_8b','r1_15b','r1_7b'):
             self.assertEqual(manifest['banks'][model+'_wild_mixed']['rows_digest'],r.digest(rows))
-            self.assertEqual(manifest['banks'][model+'_wild_harmful']['rows_digest'],r.digest(harmful))
+            self.assertEqual(manifest['banks'][model+'_wild_harmful']['rows_digest'],r.digest(r.read_rows(ROOT/'data/wild1000_harmful.jsonl')))
         for seed in (2003,2004,2005):
             ordered=r.ordered(rows,seed)
-            self.assertEqual(len({x['pair_id'] for x in ordered}),1828)
-            self.assertEqual(sum(x['task_type']=='harmful' for x in ordered),828)
+            self.assertEqual(len({x['pair_id'] for x in ordered}),2000)
+            self.assertEqual(sum(x['task_type']=='harmful' for x in ordered),1000)
             self.assertEqual(r.digest(ordered),r.digest(r.ordered(rows,seed)))
+
+    def test_added172_public_only_quality_and_old_banks_preserved(self):
+        old=r.read_rows(ROOT/'data/harmful.jsonl')
+        new=r.read_rows(ROOT/'data/wild1000_harmful.jsonl')
+        mixed=r.read_rows(ROOT/'data/wild2000_mixed.jsonl')
+        self.assertEqual(new[:828],old)
+        self.assertEqual(len(new),1000)
+        self.assertEqual(mixed[:1000],new)
+        audit=r.read_rows(ROOT/'data/wild1000_selection.jsonl')
+        self.assertEqual(len(audit),1000)
+        self.assertEqual({x['pair_id'] for x in audit},{x['pair_id'] for x in new})
+        added=[x for x in audit if not x['retained_from_original828']]
+        self.assertEqual(len(added),172)
+        for x in added:
+            self.assertFalse(x['student_success_required'])
+            self.assertEqual(x['chosen_source']['dataset'],'allenai/wildjailbreak')
+            self.assertEqual(x['rejected_source']['dataset'],'allenai/wildguardmix')
+            self.assertTrue(x['quality_judgment']['parse_ok'])
+            self.assertIs(x['quality_judgment']['value'],True)
+        manifest=r.load(ROOT/'data/wild_manifest.json')
+        self.assertEqual(set(manifest['new_reference_required']),{'qwen3_06b','qwen3_17b','qwen3_8b','r1_15b','r1_7b'})
+        self.assertTrue(all('reference_file' not in entry for entry in manifest['banks'].values()))
 
     def test_model_reference_cache_reuse_and_wrong_model_rejected(self):
         from unittest.mock import patch
@@ -155,10 +180,10 @@ class ProtocolTests(unittest.TestCase):
                 fp=r.digest(dict(config_sha256=r.digest(cfg),reference_model=entry,rows_sha256=cfg['banks']['sampled']['sha256'],encoding_sha256=cfg['banks']['sampled']['encoded_sha256'],score_reduction='sequence_sum_including_EOS',parameters='FP32',forward='BF16',optimization_steps=0))
                 values=[dict(pair_id=x['pair_id'],row_sha256=r.digest(x),scores={'positive':0.,'negative':0.},run_fingerprint=fp) for x in r.read_rows(root/'data/sampled.jsonl')]
                 path=root/'reference/scores.jsonl';r.save_rows(path,values)
-                r.save_json(root/'reference/complete.json',dict(status='complete',rows=1828,scores_sha256=r.digest(values),file_sha256=r.sha(path),reference_model_files_digest=r.digest(entry['files']),run_fingerprint=fp,optimization_steps=0,new_answers=0))
+                r.save_json(root/'reference/complete.json',dict(status='complete',rows=2000,scores_sha256=r.digest(values),file_sha256=r.sha(path),reference_model_files_digest=r.digest(entry['files']),run_fingerprint=fp,optimization_steps=0,new_answers=0))
             with patch.object(r,'run_stage',side_effect=stage):
                 result=r.prepare_reference_cache(Path(temp),job,assets,manifest,None)
-            self.assertEqual(len(r.read_rows(Path(result['reference_path']))),828)
+            self.assertEqual(len(r.read_rows(Path(result['reference_path']))),1000)
             with patch.object(r,'run_stage'):
                 repeated=r.prepare_reference_cache(Path(temp),dict(job,seed=2004),assets,manifest,None)
             self.assertEqual(repeated,result)

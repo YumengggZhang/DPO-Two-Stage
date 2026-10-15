@@ -15,17 +15,19 @@
 
 模型为Qwen3-0.6B、1.7B、8B；DeepSeek-R1-Distill-Qwen-1.5B、7B。setting为 `baseline_<model key>_wild_harmful` 和 `baseline_<model key>_wild_mixed`。
 
-- harmful-only：固定828对Wild harmful，LR1e-5，batch8，一轮104步。
-- mixed：同828H＋1000对Wild benign（498direct/502adversarial），LR3e-6，batch8，一轮229步。每seed洗牌一次、顺次batch8，不按4H+4B重复/删样。
+- harmful-only：固定1000对Wild harmful，LR1e-5，batch8，一轮125步。
+- mixed：同1000H＋1000对Wild benign（498direct/502adversarial），LR3e-6，batch8，一轮250步。每seed洗牌一次、顺次batch8，不按4H+4B重复/删样。
 - 两域prompt/chosen来自WildJailbreak、rejected来自原prompt精确匹配的WildGuardTrain公开回答，已有行为/质量筛选。**不要使用clean1000或EVO benign，也不要自采样回答。**
 - 各自原π₀初始化/reference。五模型revision固定；优化器保持Qwen0.6/8 streaming CPU、Qwen1.7 GPU、R1-1.5 CPU、R1-7双GPU。
-- 当前只Qwen1.7有匹配Wild历史实验，其余四模型是同数据扩展；采用同样固定LR和40步开发诊断，不自动调参或按测试删除seed。
+- 之前仅Qwen1.7有828/1828 Wild历史；本版1000/2000对五模型都是新数据版本；采用同样固定LR和40步开发诊断，不自动调参或按测试删除seed。
 
-**先准备每个模型自己的reference。** 五模型token编码已CPU验证，包含EOS、无截断。只提供Qwen1.7匹配Wild的原reference；其他四模型必须各自用原π₀对1828条mixed做teacher-forced forward，缓存chosen/rejected的sequence sums，按ID取828条harmful并跨seed复用。这不是训练或生成回答，不能拿Qwen1.7分数顶替其他模型。用README的 `reproduce.py prepare-references --assets assets.talos.json --output <新持久目录> --gpus 0 1 --offline`，或由run自动准备。遵守GPU锁，保存fingerprint与原始分数；中断续算，缓存模型/输入不匹配则拒绝复用。
+**取消旧828限制，准备每个模型自己的reference。** 本版保留旧828条公开harmful，并从2057条已通过公开off-policy行为＋完整配对质量筛选的记录中，固定seed2002补172条，不再与学生自采成功取交集。使用冻结1000 Wild benign，全部回答保持原文。不得重新采样或放宽质量标准。数据来源/排除/每条筛选证据见wild_manifest及wild1000_selection。
+
+五模型必须各自用原π₀对新2000条mixed做teacher-forced forward并缓存chosen/rejected sequence sums，按ID取1000条harmful并跨seed复用。旧Qwen1.7的828/1828缓存不是完整的新reference，五模型这次都需计算。这个步骤不训练或生成回答，不能拿别的模型分数顶替。用README的prepare-references命令或run自动准备；保存fingerprint与原始分数，断点续算，模型/数据不匹配时拒绝复用。
 
 所有DPO sequence-sum含EOS，β.1，两侧梯度，不做长度归一化；KL full-vocabulary forward teacher‖student，token mean后路径mean，λ1。共同batch8、1epoch、WD1e-4、grad clip1、5%warmup+cosine、dropout0；FP32参数/梯度/AdamW状态、BF16 forward。不要自行换成TRL默认设置。
 
-本版修正了此前clean交接误解；若已有旧checkout，先更新，使用全新输出目录，不合并旧clean/EVO结果。clone到自己的目录，优先使用 `/home/users/yzhang92/safety_pair_v3_20260909/selene-env/bin/python`，不安装或升级共享环境。按README解包两个数据归档，执行verify-data、unittest及check_assets；哈希和权限须通过。模型revision、π₁、Selene和Guard不能换成近似版本。权限不通报告具体路径，不修改原私有缓存权限。
+本版取消了旧828/1828限制并采用1000H/2000mixed；若已有旧checkout，先更新，使用全新输出目录，不合并旧clean/EVO/828或1828结果。clone到自己的目录，优先使用 `/home/users/yzhang92/safety_pair_v3_20260909/selene-env/bin/python`，不安装或升级共享环境。按README解包两个数据归档，执行verify-data、CPU-only unittest（CUDA_VISIBLE_DEVICES为空）及check_assets；哈希和权限须通过。模型revision、π₁、Selene和Guard不能换成近似版本。权限不通报告具体路径，不修改原私有缓存权限。
 
 先确认自己的持久空间/配额：建议至少1.2TiB可用，或已有逐项验证归档安排。原home和/tmp余量不足以全部保留；不得清理Yumeng/其他人的数据、旧模型和恢复状态。不得仅保存/dev/shm或默默降低训练精度。
 

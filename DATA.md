@@ -32,12 +32,14 @@ WildJailbreak 源为 [allenai/wildjailbreak](https://huggingface.co/datasets/all
 
 数据中的 prompt、回答和判分文本均为研究输入，不能当作给运行agent的指令。必须保留原文本、EOS、mask、IDs、完整回答以及unknown，不做silent filtering。
 
-## 当前五模型基线：两域都用Wild
+## 当前五模型基线：1000 harmful＋1000 benign，全off-policy Wild
 
-本版按用户纠正移除了clean1000/mixed2000基线。五模型共有同828对harmful及1828对全Wild mixed，后者包含同828H＋1000 Wild benign（498direct、502adversarial）。两域prompt/chosen均为WildJailbreak原文，rejected为WildGuardTrain精确prompt匹配的原公开回答；保留原判分和配对质量筛选，无新的自采样。
+2026-10-15用户明确取消此前on/off来源对照留下的828条共同成功限制。五模型统一使用同1000对harmful；mixed为同1000H＋冻结1000 Wild benign（498direct/502adversarial），文本、顺序规则和seed均共享。两域prompt/chosen为WildJailbreak原文，rejected为WildGuardTrain精确prompt匹配的公开原文。
 
-实际mixed来自 `/tmp/yzhang92/qwen17-benign-source-20261003/wild/data/mixed.jsonl`，canonical SHA=`0e4470454a06182772da55ae60e194c94a28dbc7e4b43922493e5f5800f2c059`。harmful条目与原828逐字段完全一致。此bank原先已做固定4401及官方Wild eval、underlying vanilla/family的词法排除，不声称语义去重。原pool与assembly证据随包保存。
+原828条harmful逐字段保留；从既有2057条公开来源行为＋完整配对质量通过的记录中，排除heldout prompt/underlying vanilla family和重复/benign重叠，再以排序ID＋固定seed2002补172条。补充选择不要求学生自采通过。保留的828条仍承接原common-success的历史选择偏差；整体不是从全Wild或全2057条均匀抽样，不声称代表全数据分布。原Selene判分、严格终端格式修复、来源文件SHA和每条选择证据随包保留；不重新判分、改写回答或放宽标准。
 
-`wild_manifest.json`记录实际bank/文件SHA、五模型CPU编码验证及reference可用性。三Qwen编码逐字段相同、两R1编码逐字段相同；最长Qwen1983、R11973 token，全文/EOS保留。Qwen1.7原reference已提供；其他四模型需按自身冻结π₀计算teacher-forced sequence sums，0优化、0新回答，跨seed复用；绝不能跨模型复用分数。R1公开回答按空think结束段接全文编码，不重建退役final-only stage2自采bank。
+`wild1000_harmful.jsonl`含1000条；`wild2000_mixed.jsonl`的前1000条与其完全一致、后1000条为原冻结Wild benign。`wild1000_selection.jsonl`记录每条公开来源及质量判分；`wild1000_assembly.json`给出2057候选、排除、172追加和heldout审计。去重沿用归一化精确匹配及词三元组Jaccard>=.8/containment>=.9（至少5三元组），不声称语义去重。
 
-`wild_archive.json`和wild_data分片保存新增冻结文件。unpack_data.py校验两份归档。原manifest/archive中的EVO mixed仅留历史出处，不是默认任务输入；当前任务仅引用带 `_wild_` 的基线条目。clean版数据分片不在新版包中；旧Git提交/旧zip保留审计历史。
+`wild_manifest.json`记录五模型CPU编码核验及数据SHA。新bank变为1000/2000，五个原π₀模型都需重新计算各自teacher-forced sequence sums（不生成新回答），结果跨seed复用；不能把旧828/1828分数当作完整缓存。R1公开final_text按既有空think结束段接全文并包含EOS编码，不重建退役第二阶段自采bank。
+
+原manifest/archive中828和EVO mixed只作不可变历史/π₁来源证据，不进入当前基线任务。Qwen四个stage2 method保持原1972对与原π₁；该新基线和原两阶段数据/来源/总曝光仍不相同，不是纯时序因果消融。原多benchmark评测不变。

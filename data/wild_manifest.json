@@ -1,235 +1,439 @@
 {
   "status": "verified_export",
+  "version": "Wild1000_v4_20261015",
   "banks": {
     "qwen3_06b_wild_harmful": {
-      "rows_file": "harmful.jsonl",
-      "encoding_file": "wild_qwen.encoded.json",
-      "rows": 828,
-      "harmful": 828,
+      "rows_file": "wild1000_harmful.jsonl",
+      "encoding_file": "wild2000_qwen.encoded.json",
+      "rows": 1000,
+      "harmful": 1000,
       "benign": 0,
-      "rows_digest": "fba4269284be0c5ee02b01cd62c5e7d5754d3758ecf45cd569e4057d78e7df00",
-      "encoding_digest": "3d16c5cc0dc3f1686b29b086cbe0f01f8bcf408b5ee2e7f27d5ffb23c5aa1f8d",
+      "rows_digest": "894596d030f82591c8f69dea9f2a711b20685ee306fdfae667b80fa63c3b5a85",
+      "encoding_digest": "2b3d44f1ee335c7773eed998021081479b9cdf2026e25f7930d5f338322c443c",
       "reference_model": "qwen3_06b",
-      "reference_status": "compute_original_pi0_no_training_no_answer_sampling"
+      "reference_status": "compute_own_original_pi0_on_new2000_bank_no_training_no_new_answers"
     },
     "qwen3_06b_wild_mixed": {
-      "rows_file": "wild_mixed.jsonl",
-      "encoding_file": "wild_qwen.encoded.json",
-      "rows": 1828,
-      "harmful": 828,
+      "rows_file": "wild2000_mixed.jsonl",
+      "encoding_file": "wild2000_qwen.encoded.json",
+      "rows": 2000,
+      "harmful": 1000,
       "benign": 1000,
-      "rows_digest": "0e4470454a06182772da55ae60e194c94a28dbc7e4b43922493e5f5800f2c059",
-      "encoding_digest": "3d16c5cc0dc3f1686b29b086cbe0f01f8bcf408b5ee2e7f27d5ffb23c5aa1f8d",
+      "rows_digest": "781220a96d3b7736a9181baad060a685f335d8f175ea29a13f2fd97f9c47d0d8",
+      "encoding_digest": "2b3d44f1ee335c7773eed998021081479b9cdf2026e25f7930d5f338322c443c",
       "reference_model": "qwen3_06b",
-      "reference_status": "compute_original_pi0_no_training_no_answer_sampling"
+      "reference_status": "compute_own_original_pi0_on_new2000_bank_no_training_no_new_answers"
     },
     "qwen3_17b_wild_harmful": {
-      "rows_file": "harmful.jsonl",
-      "encoding_file": "wild_qwen.encoded.json",
-      "rows": 828,
-      "harmful": 828,
+      "rows_file": "wild1000_harmful.jsonl",
+      "encoding_file": "wild2000_qwen.encoded.json",
+      "rows": 1000,
+      "harmful": 1000,
       "benign": 0,
-      "rows_digest": "fba4269284be0c5ee02b01cd62c5e7d5754d3758ecf45cd569e4057d78e7df00",
-      "encoding_digest": "3d16c5cc0dc3f1686b29b086cbe0f01f8bcf408b5ee2e7f27d5ffb23c5aa1f8d",
+      "rows_digest": "894596d030f82591c8f69dea9f2a711b20685ee306fdfae667b80fa63c3b5a85",
+      "encoding_digest": "2b3d44f1ee335c7773eed998021081479b9cdf2026e25f7930d5f338322c443c",
       "reference_model": "qwen3_17b",
-      "reference_status": "provided",
-      "reference_file": "harmful.reference.jsonl",
-      "reference_digest": "24ce9773289028b69889e9f594c412350a40c6d940390c70f49d82480bc596ee"
+      "reference_status": "compute_own_original_pi0_on_new2000_bank_no_training_no_new_answers"
     },
     "qwen3_17b_wild_mixed": {
-      "rows_file": "wild_mixed.jsonl",
-      "encoding_file": "wild_qwen.encoded.json",
-      "rows": 1828,
-      "harmful": 828,
+      "rows_file": "wild2000_mixed.jsonl",
+      "encoding_file": "wild2000_qwen.encoded.json",
+      "rows": 2000,
+      "harmful": 1000,
       "benign": 1000,
-      "rows_digest": "0e4470454a06182772da55ae60e194c94a28dbc7e4b43922493e5f5800f2c059",
-      "encoding_digest": "3d16c5cc0dc3f1686b29b086cbe0f01f8bcf408b5ee2e7f27d5ffb23c5aa1f8d",
+      "rows_digest": "781220a96d3b7736a9181baad060a685f335d8f175ea29a13f2fd97f9c47d0d8",
+      "encoding_digest": "2b3d44f1ee335c7773eed998021081479b9cdf2026e25f7930d5f338322c443c",
       "reference_model": "qwen3_17b",
-      "reference_status": "provided",
-      "reference_file": "wild_mixed.qwen17.reference.jsonl",
-      "reference_digest": "6258928d6630add0de721e164e4b3f763bc5beb810d1c73c61737d082a1aed5b"
+      "reference_status": "compute_own_original_pi0_on_new2000_bank_no_training_no_new_answers"
     },
     "qwen3_8b_wild_harmful": {
-      "rows_file": "harmful.jsonl",
-      "encoding_file": "wild_qwen.encoded.json",
-      "rows": 828,
-      "harmful": 828,
+      "rows_file": "wild1000_harmful.jsonl",
+      "encoding_file": "wild2000_qwen.encoded.json",
+      "rows": 1000,
+      "harmful": 1000,
       "benign": 0,
-      "rows_digest": "fba4269284be0c5ee02b01cd62c5e7d5754d3758ecf45cd569e4057d78e7df00",
-      "encoding_digest": "3d16c5cc0dc3f1686b29b086cbe0f01f8bcf408b5ee2e7f27d5ffb23c5aa1f8d",
+      "rows_digest": "894596d030f82591c8f69dea9f2a711b20685ee306fdfae667b80fa63c3b5a85",
+      "encoding_digest": "2b3d44f1ee335c7773eed998021081479b9cdf2026e25f7930d5f338322c443c",
       "reference_model": "qwen3_8b",
-      "reference_status": "compute_original_pi0_no_training_no_answer_sampling"
+      "reference_status": "compute_own_original_pi0_on_new2000_bank_no_training_no_new_answers"
     },
     "qwen3_8b_wild_mixed": {
-      "rows_file": "wild_mixed.jsonl",
-      "encoding_file": "wild_qwen.encoded.json",
-      "rows": 1828,
-      "harmful": 828,
+      "rows_file": "wild2000_mixed.jsonl",
+      "encoding_file": "wild2000_qwen.encoded.json",
+      "rows": 2000,
+      "harmful": 1000,
       "benign": 1000,
-      "rows_digest": "0e4470454a06182772da55ae60e194c94a28dbc7e4b43922493e5f5800f2c059",
-      "encoding_digest": "3d16c5cc0dc3f1686b29b086cbe0f01f8bcf408b5ee2e7f27d5ffb23c5aa1f8d",
+      "rows_digest": "781220a96d3b7736a9181baad060a685f335d8f175ea29a13f2fd97f9c47d0d8",
+      "encoding_digest": "2b3d44f1ee335c7773eed998021081479b9cdf2026e25f7930d5f338322c443c",
       "reference_model": "qwen3_8b",
-      "reference_status": "compute_original_pi0_no_training_no_answer_sampling"
+      "reference_status": "compute_own_original_pi0_on_new2000_bank_no_training_no_new_answers"
     },
     "r1_7b_wild_harmful": {
-      "rows_file": "harmful.jsonl",
-      "encoding_file": "wild_r1.encoded.json",
-      "rows": 828,
-      "harmful": 828,
+      "rows_file": "wild1000_harmful.jsonl",
+      "encoding_file": "wild2000_r1.encoded.json",
+      "rows": 1000,
+      "harmful": 1000,
       "benign": 0,
-      "rows_digest": "fba4269284be0c5ee02b01cd62c5e7d5754d3758ecf45cd569e4057d78e7df00",
-      "encoding_digest": "dea300f0aa0fb43015be30f433c76de820146856dfcc181bcff7411746ba33b3",
+      "rows_digest": "894596d030f82591c8f69dea9f2a711b20685ee306fdfae667b80fa63c3b5a85",
+      "encoding_digest": "532dfb808fb25dcf01b6ee664a6f1fd4c91cd1b0a1fcb9c16f14af09d100648f",
       "reference_model": "r1_7b",
-      "reference_status": "compute_original_pi0_no_training_no_answer_sampling"
+      "reference_status": "compute_own_original_pi0_on_new2000_bank_no_training_no_new_answers"
     },
     "r1_7b_wild_mixed": {
-      "rows_file": "wild_mixed.jsonl",
-      "encoding_file": "wild_r1.encoded.json",
-      "rows": 1828,
-      "harmful": 828,
+      "rows_file": "wild2000_mixed.jsonl",
+      "encoding_file": "wild2000_r1.encoded.json",
+      "rows": 2000,
+      "harmful": 1000,
       "benign": 1000,
-      "rows_digest": "0e4470454a06182772da55ae60e194c94a28dbc7e4b43922493e5f5800f2c059",
-      "encoding_digest": "dea300f0aa0fb43015be30f433c76de820146856dfcc181bcff7411746ba33b3",
+      "rows_digest": "781220a96d3b7736a9181baad060a685f335d8f175ea29a13f2fd97f9c47d0d8",
+      "encoding_digest": "532dfb808fb25dcf01b6ee664a6f1fd4c91cd1b0a1fcb9c16f14af09d100648f",
       "reference_model": "r1_7b",
-      "reference_status": "compute_original_pi0_no_training_no_answer_sampling"
+      "reference_status": "compute_own_original_pi0_on_new2000_bank_no_training_no_new_answers"
     },
     "r1_15b_wild_harmful": {
-      "rows_file": "harmful.jsonl",
-      "encoding_file": "wild_r1.encoded.json",
-      "rows": 828,
-      "harmful": 828,
+      "rows_file": "wild1000_harmful.jsonl",
+      "encoding_file": "wild2000_r1.encoded.json",
+      "rows": 1000,
+      "harmful": 1000,
       "benign": 0,
-      "rows_digest": "fba4269284be0c5ee02b01cd62c5e7d5754d3758ecf45cd569e4057d78e7df00",
-      "encoding_digest": "dea300f0aa0fb43015be30f433c76de820146856dfcc181bcff7411746ba33b3",
+      "rows_digest": "894596d030f82591c8f69dea9f2a711b20685ee306fdfae667b80fa63c3b5a85",
+      "encoding_digest": "532dfb808fb25dcf01b6ee664a6f1fd4c91cd1b0a1fcb9c16f14af09d100648f",
       "reference_model": "r1_15b",
-      "reference_status": "compute_original_pi0_no_training_no_answer_sampling"
+      "reference_status": "compute_own_original_pi0_on_new2000_bank_no_training_no_new_answers"
     },
     "r1_15b_wild_mixed": {
-      "rows_file": "wild_mixed.jsonl",
-      "encoding_file": "wild_r1.encoded.json",
-      "rows": 1828,
-      "harmful": 828,
+      "rows_file": "wild2000_mixed.jsonl",
+      "encoding_file": "wild2000_r1.encoded.json",
+      "rows": 2000,
+      "harmful": 1000,
       "benign": 1000,
-      "rows_digest": "0e4470454a06182772da55ae60e194c94a28dbc7e4b43922493e5f5800f2c059",
-      "encoding_digest": "dea300f0aa0fb43015be30f433c76de820146856dfcc181bcff7411746ba33b3",
+      "rows_digest": "781220a96d3b7736a9181baad060a685f335d8f175ea29a13f2fd97f9c47d0d8",
+      "encoding_digest": "532dfb808fb25dcf01b6ee664a6f1fd4c91cd1b0a1fcb9c16f14af09d100648f",
       "reference_model": "r1_15b",
-      "reference_status": "compute_original_pi0_no_training_no_answer_sampling"
+      "reference_status": "compute_own_original_pi0_on_new2000_bank_no_training_no_new_answers"
     }
   },
   "files": {
-    "wild_mixed.jsonl": {
-      "bytes": 8806154,
-      "sha256": "474fbd686543780f26a3fe957613b09f8a0ee931b51986aeb43198ea83cea533"
+    "wild1000_harmful.jsonl": {
+      "bytes": 5284196,
+      "sha256": "406a88c8dcec40001131ed762076bde49638f62622b9c9235f6f2959b508024a"
     },
-    "wild_mixed.qwen17.reference.jsonl": {
-      "bytes": 531932,
-      "sha256": "a685ce9eaebd9f78efea228baaf48a84dc56e8acaa1397454bdc5f3925887572"
+    "wild2000_mixed.jsonl": {
+      "bytes": 9653070,
+      "sha256": "cc304c147fc59dc8e0aa4636df93f2107483ac49bf7046fcdc897c6a1f30e675"
     },
-    "wild_assembly_summary.json": {
-      "bytes": 888,
-      "sha256": "a6aaecc328847a5cefccfe13483af18bc7317468d9631e9c1002439d04856d83"
+    "wild1000_selection.jsonl": {
+      "bytes": 2078600,
+      "sha256": "1a7cf39bf27b2173c538cf15777552cf7aa5c4dd49b8ae68868ef9d5fe30b255"
     },
-    "wild_pool_complete.json": {
-      "bytes": 1023,
-      "sha256": "4cc4f75a7c5464ad53e69b3fb2f37fa925168124990c001fccc5e33f7db36da5"
+    "wild2000_qwen.encoded.json": {
+      "bytes": 24568824,
+      "sha256": "108daf2494a4ac605a4b1a703f113966df92d36c47eb39d89de9abe1aaecd25d"
     },
-    "wild_qwen.encoded.json": {
-      "bytes": 22538427,
-      "sha256": "a8fce1f7f61f85a2f44e9bd4ee279337aecff5d215fe47305b8cba52556d2a8c"
+    "wild2000_r1.encoded.json": {
+      "bytes": 37025843,
+      "sha256": "3e4e2cb174afa4a65587a5173b60eb213a4faf7b2c54a65224d0e6ea9db3d110"
     },
-    "wild_r1.encoded.json": {
-      "bytes": 33724789,
-      "sha256": "f2d45f312747a71c691930b82c27f195529e48541bb43d01455a8dd3f1cc4cbe"
+    "wild1000_assembly.json": {
+      "bytes": 2191,
+      "sha256": "72a8a26103633e63b72d5a614280a3e2561ab9427d8e24d4603929f43ea5d1d3"
     }
   },
   "original_sources": {
-    "/tmp/yzhang92/qwen17-benign-source-20261003/wild/config.json": {
-      "bytes": 5256,
-      "sha256": "7ebcb0ca7ba7f3395fbed1950d20993b3677120630ee5242df16117c2955b59a"
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/expansion_protocol.json": {
+      "bytes": 2873,
+      "sha256": "0dc64aaee296058ea5fba872ab3a4a177403b8ea0aa8939edb507ba77e91d32c"
     },
-    "/tmp/yzhang92/qwen17-benign-source-20261003/wild/data/mixed.jsonl": {
-      "bytes": 8806154,
-      "sha256": "474fbd686543780f26a3fe957613b09f8a0ee931b51986aeb43198ea83cea533"
-    },
-    "/tmp/yzhang92/qwen17-benign-source-20261003/wild/data/mixed.encoded.json": {
-      "bytes": 22538427,
-      "sha256": "a8fce1f7f61f85a2f44e9bd4ee279337aecff5d215fe47305b8cba52556d2a8c"
-    },
-    "/tmp/yzhang92/qwen17-benign-source-20261003/wild/reference/mixed/scores.jsonl": {
-      "bytes": 531932,
-      "sha256": "a685ce9eaebd9f78efea228baaf48a84dc56e8acaa1397454bdc5f3925887572"
-    },
-    "/tmp/yzhang92/qwen17-benign-source-20261003/wild/reference/mixed/complete.json": {
-      "bytes": 215,
-      "sha256": "c5063ccf4e52bc6eb326fd623640813d81c12b246d8a5167b9f1ecf3285c3cd1"
-    },
-    "/tmp/yzhang92/qwen17-benign-source-20261003/wild/data/assembly_summary.json": {
-      "bytes": 888,
-      "sha256": "a6aaecc328847a5cefccfe13483af18bc7317468d9631e9c1002439d04856d83"
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/data/candidate_pool.jsonl": {
+      "bytes": 26386586,
+      "sha256": "f3907f476193d2a99479fc692ef9f4b02aba8243c65e3fbdb41a0a3b939ad94a"
     },
     "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/data/dataset_rejected.jsonl": {
       "bytes": 4437280,
       "sha256": "77584d686077b93669ecd7a817aa33377dfea1e856cb09a91c7a832c8769dfcc"
     },
-    "/tmp/yzhang92/qwen17-benign-source-20261003/wild/pool_complete.json": {
-      "bytes": 1023,
-      "sha256": "4cc4f75a7c5464ad53e69b3fb2f37fa925168124990c001fccc5e33f7db36da5"
+    "/tmp/yzhang92/qwen17-benign-source-20261003/wild/data/mixed.jsonl": {
+      "bytes": 8806154,
+      "sha256": "474fbd686543780f26a3fe957613b09f8a0ee931b51986aeb43198ea83cea533"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/00/complete.json": {
+      "bytes": 530,
+      "sha256": "7d398fcd4e0ff75093d2ed65e37d76e39581fa9522222f3f4aca526b319c1fdf"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/00/quality/input.json": {
+      "bytes": 249,
+      "sha256": "381ebd08e2fd68e560f0c762846764e271e10ebfa92b59803632cb431b06f528"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/00/quality/links.jsonl": {
+      "bytes": 251836,
+      "sha256": "b4112ddf77e77a41f4c3d9dc92757be68131dc435aeb1c4ea0b3aba8a8dbd400"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/00/quality/requests.jsonl": {
+      "bytes": 4551619,
+      "sha256": "b2ffe160ec894ebc083208abaf62f18d9e05f4dfa495ec69205017264f8916fe"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/00/quality/judgments.jsonl": {
+      "bytes": 1103995,
+      "sha256": "2e4ecb6c76c7bac10455b68c0a4b818805a1fcc3f28902f57b9a78751b6f0b4b"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/00/quality/judgments.jsonl.run.json": {
+      "bytes": 576,
+      "sha256": "91af6d3bfaefcec42328a5fad2c8379b17d9cd9c37cd4ef1d92399127cf6b59d"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/00/dataset_original/labeled_candidates.jsonl": {
+      "bytes": 2860716,
+      "sha256": "411b46867e7e3ae421ca68c04e5cdde97bc3672927c02b117938784d2b3eddd0"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/00/dataset_original/complete.json": {
+      "bytes": 576,
+      "sha256": "32dcdf40b6b5a360d69b5a522d539f16231161ec06e01bbb5cea3b6aa60e3024"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/00/data/wild400.jsonl": {
+      "bytes": 2046688,
+      "sha256": "69153a1c7ce0f6b338752375309cb2499143ebfc16c9e48e1f0aa80e7baf0fe0"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/01/complete.json": {
+      "bytes": 535,
+      "sha256": "9821b2b42a0c7a5cfba1151156024e78a91c6f71ea551c43a604ec0be3964e5f"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/01/quality/input.json": {
+      "bytes": 250,
+      "sha256": "5b4682b40f063aa71061cb24a8fa412831ac6072fc92b7a2b3755a3af9c08cde"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/01/quality/links.jsonl": {
+      "bytes": 671323,
+      "sha256": "a0cd2b303f234c225039051dc95bf1abae4054448dba04ac97bcea0ea4a2255a"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/01/quality/requests.jsonl": {
+      "bytes": 12225651,
+      "sha256": "5166e19aa8ef80aa3cadeb7bb78e1885f3d9a13889670eab4f9f7a567476f44a"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/01/quality/judgments.jsonl": {
+      "bytes": 2927114,
+      "sha256": "0d67c3c92d14028965a0e2cc80fc9fe3767e898d5ee5fc1f54db2d2088d09d6c"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/01/quality/judgments.jsonl.run.json": {
+      "bytes": 576,
+      "sha256": "30385267da8ed65394683e9ea911d6ce70f998c1a191a200bdafd5b3be24f033"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/01/dataset_original/labeled_candidates.jsonl": {
+      "bytes": 6910245,
+      "sha256": "6383749adf7cedb613188a9e0e1bb284a12cc76847822990d4a7d30e99a81b09"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/01/dataset_original/complete.json": {
+      "bytes": 577,
+      "sha256": "3d5f0bc764d00a724fa702f5c94f86bcd7fa049b36446afc54c859813b832208"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/01/data/wild400.jsonl": {
+      "bytes": 5022943,
+      "sha256": "d1ed72b6fb7fee938b58a9e0ef1ff852a86fd72507ddee3e8d01f0e37ac3806f"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/02/complete.json": {
+      "bytes": 536,
+      "sha256": "9da50d2a1781626d17f59345cbcb03341486bf586835d34ca454abe1bd1fa795"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/02/quality/input.json": {
+      "bytes": 250,
+      "sha256": "ac0f6fc569ec38ee3c5599e2c0b4acb0bb82a53e442ff4e777865d6eb3fdcc57"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/02/quality/links.jsonl": {
+      "bytes": 644807,
+      "sha256": "25f25f9bac9a42908029ac8e6b4c6b77f2c514798436fee01fd695040be35f91"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/02/quality/requests.jsonl": {
+      "bytes": 11277463,
+      "sha256": "c7053eed711a755a1d2d90962f4dd10cc27e37f250a3ed1a2b892324713c3ca0"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/02/quality/judgments.jsonl": {
+      "bytes": 2809478,
+      "sha256": "4c93f68715d1b13d085f28d23a3cb6bf6c717131f38dde5086dc3a60f714013f"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/02/quality/judgments.jsonl.run.json": {
+      "bytes": 576,
+      "sha256": "00829ea6472757056f148a07fa7de6d3d9afa4917933f0910346b28e97453977"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/02/dataset_original/labeled_candidates.jsonl": {
+      "bytes": 6758124,
+      "sha256": "409cbfa01dbade522e235f186af1019fc6d792bb5b52bd6f755d4a4bc5d3681a"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/02/dataset_original/complete.json": {
+      "bytes": 577,
+      "sha256": "1c812493975d14cce7876e521c87e81a3b78f0e278b2243eae83692edf0602c2"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/02/data/wild400.jsonl": {
+      "bytes": 4881587,
+      "sha256": "c933e2239fd593f7057886fd9eec6acbb3fab47c86d4294f522524229e0c6a89"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/03/complete.json": {
+      "bytes": 535,
+      "sha256": "b6cda3509fcdce0ab3d5d105e9bb9876dc607daf3bb03a9b7b83f691a8b66fd1"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/03/quality/input.json": {
+      "bytes": 250,
+      "sha256": "24a35732fadfe8260e1531f38cd4681abc856f15d2318efa30fb8eaaacd30ec9"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/03/quality/links.jsonl": {
+      "bytes": 665809,
+      "sha256": "8065a14815ea5224b396edb2f8794045b70fb7ecaacc03b3f0f64f8583dc04c2"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/03/quality/requests.jsonl": {
+      "bytes": 11897974,
+      "sha256": "3bd2bc8255602c637b76904a4b6b23f7dfe4e7a55deac91259ade32f62d541e8"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/03/quality/judgments.jsonl": {
+      "bytes": 2964876,
+      "sha256": "e2c6e2ecd070d5ad15a4c1e3780870a2ba9479d066c79b6c1e40317267b9adcd"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/03/quality/judgments.jsonl.run.json": {
+      "bytes": 576,
+      "sha256": "00cc20c29677970aac77ff1f7dc4cec8511a74cecafd5f408f3783da36135cc4"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/03/dataset_original/labeled_candidates.jsonl": {
+      "bytes": 6693544,
+      "sha256": "688b985636c4fc6446062b4e7fd4c06203382ac9485e5e40d9929d9a338bf1a8"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/03/dataset_original/complete.json": {
+      "bytes": 577,
+      "sha256": "45ff373cd071c0c78bfd8307e89f3c2c037ada9d95a8d65ba7fe183ac97f70ae"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/03/data/wild400.jsonl": {
+      "bytes": 4889064,
+      "sha256": "01ac36d17ba37806bb515257c8efd3791b681e21fa0641118c544dfa51647750"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/04/complete.json": {
+      "bytes": 536,
+      "sha256": "fbe05d8dcd944194af4a047fe11deea2ec23674761175985f766eac221d3674b"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/04/quality/input.json": {
+      "bytes": 250,
+      "sha256": "b66ceda9456c0e4f5df757116d2d77a3e077bfa098900d4a3e318c13aae3452b"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/04/quality/links.jsonl": {
+      "bytes": 657929,
+      "sha256": "f32e3c9fd2147164f17857603645d7ee5f205b0206eb161a351e751e5a341fff"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/04/quality/requests.jsonl": {
+      "bytes": 11773281,
+      "sha256": "bede58fb913c146b55879e83e4ec86b818f5e9f4086938fcca9f4c95ac0b3205"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/04/quality/judgments.jsonl": {
+      "bytes": 2896329,
+      "sha256": "448a33965e6128173ce33adfd35f06ed37dc4c4e0ceac2bbd299d2a86c0361b7"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/04/quality/judgments.jsonl.run.json": {
+      "bytes": 576,
+      "sha256": "208e6a961cea45f955738ac8ae62e3edc96fcfbb49f81a5d272c48dd4f0185ec"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/04/dataset_original/labeled_candidates.jsonl": {
+      "bytes": 6800362,
+      "sha256": "e0784355d4b2e1fb15d876509fbe2f4714e60368c237148774642c539acc115d"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/04/dataset_original/complete.json": {
+      "bytes": 577,
+      "sha256": "ab4b65f7b98c494ecc1d65a654045500a198c4e8ec36c486c90514425067f740"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/04/data/wild400.jsonl": {
+      "bytes": 4948688,
+      "sha256": "759931f657a00b2851ea70619cf6913e5ea45413d8e649c1ff2a25ead0571479"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/05/complete.json": {
+      "bytes": 534,
+      "sha256": "480a4873dfd236e3b7d30b83be2b971063cedb42531a032594e2e83550f6fe16"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/05/quality/input.json": {
+      "bytes": 250,
+      "sha256": "8329ed2d1c80d1681a012eed0212f6a1a1f9a6310268542e6dff7d29c91c721a"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/05/quality/links.jsonl": {
+      "bytes": 602001,
+      "sha256": "903a13b23c93eb9c65edffdafb444d2e7110e1b15120458cb642c1436c1c5f82"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/05/quality/requests.jsonl": {
+      "bytes": 10619230,
+      "sha256": "59f7469d419246de2ff36499d705e0e68fca079e479cb1aa27d3b74f4fe10fc5"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/05/quality/judgments.jsonl": {
+      "bytes": 2668073,
+      "sha256": "19d124d7d0707a33203cad7e90f7acd94440e2bca65942e9a527b7a6ff182d65"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/05/quality/judgments.jsonl.run.json": {
+      "bytes": 576,
+      "sha256": "8ccfbcb5b55f826069db4de56609c503316af5cdfbff0d6d5391627469be85ed"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/05/dataset_original/labeled_candidates.jsonl": {
+      "bytes": 6249365,
+      "sha256": "13e9ab19e627b3961c3c15352cef78a0b519ec0baa02dacf8058c2e773e689c2"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/05/dataset_original/complete.json": {
+      "bytes": 576,
+      "sha256": "23fbd243e81522352835653bd6e3969c20b5bfcd9434251d46c4ee0430646710"
+    },
+    "/tmp/yzhang92/qwen17-existing-rejected-wild-20260930/rounds/05/data/wild400.jsonl": {
+      "bytes": 4597616,
+      "sha256": "31e6d96478c2f370e4c897a26fd5b4e4101ec8bed6386bc19ab036dc12a11625"
+    },
+    "/tmp/yzhang92/qwen17-benign-source-20261003/wild/data/safety_eval.json": {
+      "bytes": 1741298,
+      "sha256": "f928c7e0b41d7f9375cc0bf7304ac415cae9c7a4f52d5d6439a09e203eec8c94"
+    },
+    "/home/users/yzhang92/wildjailbreak_qwen17_pilot_20260930/source/eval/eval.tsv": {
+      "bytes": 1742350,
+      "sha256": "eeb7e43aafa0151588f5cb8994b99adc0ee34a57819d92f43a6084f0b7fe4fa4"
+    },
+    "/home/users/yzhang92/wildjailbreak_qwen17_pilot_20260930/source/train/train.tsv": {
+      "bytes": 530920110,
+      "sha256": "376719bfdb46ad1a19e7ba4f587f80cc7cb1368cc213ee647ef739c170550f7a"
     }
   },
   "tokenizer_verification": {
     "qwen3_06b": {
-      "model_revision": "c1899de289a04d12100db370d81485cdf75e47ca",
-      "encoding_digest": "3d16c5cc0dc3f1686b29b086cbe0f01f8bcf408b5ee2e7f27d5ffb23c5aa1f8d",
+      "revision": "c1899de289a04d12100db370d81485cdf75e47ca",
+      "encoding_digest": "2b3d44f1ee335c7773eed998021081479b9cdf2026e25f7930d5f338322c443c",
       "max_tokens": 1983,
       "EOS_included": true,
       "no_truncation": true,
       "CPU_only": true
     },
     "qwen3_17b": {
-      "model_revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
-      "encoding_digest": "3d16c5cc0dc3f1686b29b086cbe0f01f8bcf408b5ee2e7f27d5ffb23c5aa1f8d",
+      "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+      "encoding_digest": "2b3d44f1ee335c7773eed998021081479b9cdf2026e25f7930d5f338322c443c",
       "max_tokens": 1983,
       "EOS_included": true,
       "no_truncation": true,
       "CPU_only": true
     },
     "qwen3_8b": {
-      "model_revision": "b968826d9c46dd6066d109eabc6255188de91218",
-      "encoding_digest": "3d16c5cc0dc3f1686b29b086cbe0f01f8bcf408b5ee2e7f27d5ffb23c5aa1f8d",
+      "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+      "encoding_digest": "2b3d44f1ee335c7773eed998021081479b9cdf2026e25f7930d5f338322c443c",
       "max_tokens": 1983,
       "EOS_included": true,
       "no_truncation": true,
       "CPU_only": true
     },
     "r1_7b": {
-      "model_revision": "916b56a44061fd5cd7d6a8fb632557ed4f724f60",
-      "encoding_digest": "dea300f0aa0fb43015be30f433c76de820146856dfcc181bcff7411746ba33b3",
+      "revision": "916b56a44061fd5cd7d6a8fb632557ed4f724f60",
+      "encoding_digest": "532dfb808fb25dcf01b6ee664a6f1fd4c91cd1b0a1fcb9c16f14af09d100648f",
       "max_tokens": 1973,
       "EOS_included": true,
       "no_truncation": true,
       "CPU_only": true
     },
     "r1_15b": {
-      "model_revision": "ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562",
-      "encoding_digest": "dea300f0aa0fb43015be30f433c76de820146856dfcc181bcff7411746ba33b3",
+      "revision": "ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562",
+      "encoding_digest": "532dfb808fb25dcf01b6ee664a6f1fd4c91cd1b0a1fcb9c16f14af09d100648f",
       "max_tokens": 1973,
       "EOS_included": true,
       "no_truncation": true,
       "CPU_only": true
     }
   },
-  "source": "WildJailbreak train chosen + exact-prompt WildGuardTrain published rejected on both harmful and benign; screened original1000 benign reused; no new answers",
-  "original_qwen_reference_proof": {
-    "status": "complete",
-    "rows": 1828,
-    "scores_sha256": "6258928d6630add0de721e164e4b3f763bc5beb810d1c73c61737d082a1aed5b",
-    "fingerprint": "c585f4024932ad7b815b92084ba230d0e35816dce098d01527d3d19f38621f03"
-  },
   "new_reference_required": [
     "qwen3_06b",
+    "qwen3_17b",
     "qwen3_8b",
-    "r1_15b",
-    "r1_7b"
+    "r1_7b",
+    "r1_15b"
   ],
-  "note": "Model-specific reference sums must never be shared across model weights. Other four models compute frozen-pi0 scores once on mixed union, then subset harmful; reuse across seeds."
+  "source": "All1000 harmful/1000 benign are published off-policy pairs: WildJailbreak prompt/chosen + exact-prompt WildGuardTrain original rejected; no on-policy success requirement for the new172",
+  "assembly_digest": "d1561cee4de85e1136b0844f0b3652295b2a43d98be5ce87eac0abddf89adbbd"
 }
