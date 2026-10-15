@@ -1,4 +1,0 @@
-interface:
-  display_name: "Research Partner"
-  short_description: "Challenge hypotheses and design research experiments"
-  default_prompt: "Use $research-partner to separate observations from hypotheses, evaluate novelty, and choose the most informative next experiment."
